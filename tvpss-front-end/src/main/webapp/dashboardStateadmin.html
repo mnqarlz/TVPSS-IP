@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>State Dashboard</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f9fafb;
+            margin: 0;
+            padding: 0;
+        }
+
+        iframe {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 300px;
+            height: 100vh;
+            border: none;
+            background-color: #1f2937;
+        }
+
+        .ml-64 {
+            margin-left: 300px;
+        }
+
+        footer {
+            background-color: #ffffff;
+            padding: 16px 32px;
+            border-top: 1px solid #e5e7eb;
+            text-align: center;
+            color: #2a4365;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .header {
+            background-color: #ffffff;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 16px 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .header h3 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: #374151;
+        }
+
+        .header .controls {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .header .controls select,
+        .header .controls input {
+            padding: 10px 16px;
+            border-radius: 8px;
+            border: 1px solid #d1d5db;
+            background-color: #f9fafb;
+            transition: all 0.2s ease-in-out;
+        }
+
+        .header .controls button {
+            padding: 10px 20px;
+            border-radius: 8px;
+            background-color: #2a4365;
+            color: white;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: background-color 0.2s ease-in-out;
+        }
+
+        .header .controls button:hover {
+            background-color: #2a4365;
+        }
+
+        .main-content {
+            padding: 24px;
+            background-color: #f9fafb;
+            min-height: calc(100vh - 100px);
+        }
+
+        .card {
+            background-color: #ffffff;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Adjust layout for charts to be next to each other */
+        .charts-container {
+            display: flex;
+            gap: 16px;
+            justify-content: space-between;
+            flex-wrap: wrap; /* Ensure charts wrap on smaller screens */
+        }
+
+        .chart-wrapper {
+            width: 48%; /* Make each chart take up 48% of the width */
+            margin-bottom: 16px; /* Add space between chart wrappers */
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .header .controls {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .charts-container {
+                flex-direction: column;
+            }
+
+            .chart-wrapper {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Sidebar via iframe -->
+    <iframe src="stateadminSidebar.html"></iframe>
+
+    <div class="ml-64">
+        <div>
+            <!-- Header -->
+            <div class="header">
+                <h3>Selamat Datang Pengguna</h3>
+                <div class="controls">
+                    <!-- Dropdown -->
+                    <div>
+                        <label for="timeframe" class="block text-sm font-medium text-gray-600">Jenis</label>
+                        <select id="timeframe" class="w-40">
+                            <option value="Harian">Harian</option>
+                            <option value="Mingguan" selected>Mingguan</option>
+                            <option value="Bulanan">Bulanan</option>
+                        </select>
+                    </div>
+
+                    <!-- Date -->
+                    <div>
+                        <label for="date" class="block text-sm font-medium text-gray-600">Tarikh</label>
+                        <input type="date" id="date" class="w-48">
+                    </div>
+
+                    <!-- Export Button -->
+                    <div>
+                        <label class="block text-sm font-medium text-transparent">Placeholder</label>
+                        <button class="w-32 flex items-center justify-center">
+                            <i class="fa fa-download"></i> Export
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="main-content">
+                <!-- Stats Cards -->
+                <div class="grid grid-cols-3 gap-4 mb-8">
+                    <div class="card bg-white p-6 rounded-lg shadow">
+                        <div class="flex items-center">
+                            <i class="fas fa-certificate fa-2x text-blue-900 mr-4"></i>
+                            <div>
+                                <h3 class="text-lg text-blue-900 font-bold">Bilangan Permohonan Sijil</h3>
+                                <p class="text-3xl font-bold text-blue-900">48</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card bg-white p-6 rounded-lg shadow">
+                        <div class="flex items-center">
+                            <i class="fas fa-trophy fa-2x text-blue-900 mr-4"></i>
+                            <div>
+                                <h3 class="text-lg text-blue-900 font-bold">Bilangan Pencapaian</h3>
+                                <p class="text-3xl font-bold text-blue-900">800</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card bg-white p-6 rounded-lg shadow">
+                        <div class="flex items-center">
+                            <i class="fas fa-school fa-2x text-blue-900 mr-4"></i>
+                            <div>
+                                <h3 class="text-lg text-blue-900 font-bold">Bilangan TVPSS Mengikut Negeri</h3>
+                                <p class="text-3xl font-bold text-blue-900">400</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts -->
+                <div class="charts-container">
+                    <!-- Bar Chart -->
+                    <div class="chart-wrapper">
+                        <div class="bg-white p-6 rounded-lg shadow">
+                            <h3 class="text-lg text-center text-blue-900 font-bold mb-4">Bilangan Sekolah Mengikut Versi</h3>
+                            <canvas id="barChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Doughnut Chart -->
+                    <div class="chart-wrapper">
+                        <div class="bg-white p-6 rounded-lg shadow">
+                            <div class="flex justify-between items-center mb-4">
+                                <h3 class="text-lg text-blue-900 font-bold">Jumlah Peratusan Mengikut Versi</h3>
+                                <div class="flex justify-center mb-4">
+                                    <select id="stateDropdown" class="w-60 p-2 border border-gray-300 rounded">
+                                        <option value="all">Pilih Versi</option>
+                                        <option value="versi 1">Versi 1</option>
+                                        <option value="versi 2">Versi 2</option>
+                                        <option value="versi 3">Versi 3</option>
+                                        <option value="versi 4">Versi 4</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <canvas id="doughnutChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <footer>
+                © 2024 Kementerian Pendidikan Malaysia (KPM)
+            </footer>
+        </div>
+    </div>
+
+    <script>
+        // Bar Chart
+        const barCtx = document.getElementById('barChart').getContext('2d');
+        new Chart(barCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Versi 1', 'Versi 2', 'Versi 3'],
+                datasets: [{
+                    label: 'Bilangan',
+                    data: [1000, 800, 4000],
+                    backgroundColor: ['#1e3a8a', '#2563eb', '#60a5fa'],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Initialize Doughnut Chart
+        const doughnutCtx = document.getElementById('doughnutChart').getContext('2d');
+        const doughnutChart = new Chart(doughnutCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Johor Bahru', 'Skudai', 'Batui Pahat', 'Kluang'],
+                datasets: [
+                    {
+                        data: [10, 30, 60], // Default data (Semua Negeri)
+                        backgroundColor: ['#1e3a8a', '#2563eb', '#60a5fa', '#34d399'],
+                    },
+                ],
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                    },
+                },
+            },
+        });
+
+        // Update Chart Based on Dropdown Selection
+        document.getElementById('stateDropdown').addEventListener('change', function () {
+            const selectedState = this.value;
+
+            // Example data for each state (replace with actual data)
+            let newData;
+            switch (selectedState) {
+                case 'all':
+                    newData = [10, 30, 60]; // Default data
+                    break;
+                case 'versi 1':
+                    newData = [15, 25, 60]; // Johor data
+                    break;
+                case 'versi 2':
+                    newData = [10, 40, 50]; // Kedah data
+                    break;
+                case 'versi 3':
+                    newData = [20, 20, 60]; // Kelantan data
+                    break;
+                case 'versi 4':
+                    newData = [10, 35, 55]; // Melaka data
+                    break;
+                default:
+                    newData = [10, 30, 60]; // Fallback data
+                    break;
+            }
+
+            // Update Doughnut Chart
+            doughnutChart.data.datasets[0].data = newData;
+            doughnutChart.update();
+        });
+    </script>
+</body>
+
+</html>

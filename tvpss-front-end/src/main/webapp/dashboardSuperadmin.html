@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f9fafb;
+            margin: 0;
+            padding: 0;
+        }
+
+        iframe {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 300px;
+            height: 100vh;
+            border: none;
+            background-color: #1f2937;
+        }
+
+        .ml-64 {
+            margin-left: 300px;
+        }
+
+        footer {
+            background-color: #ffffff;
+            padding: 16px 32px;
+            border-top: 1px solid #e5e7eb;
+            text-align: center;
+            color: #2a4365;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .header {
+            background-color: #ffffff;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 16px 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .header h2 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: #374151;
+        }
+
+        .header .controls {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .header .controls select,
+        .header .controls input {
+            padding: 10px 16px;
+            border-radius: 8px;
+            border: 1px solid #d1d5db;
+            background-color: #f9fafb;
+            transition: all 0.2s ease-in-out;
+        }
+
+        .header .controls button {
+            padding: 10px 20px;
+            border-radius: 8px;
+            background-color: #2a4365;
+            color: white;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: background-color 0.2s ease-in-out;
+        }
+
+        .header .controls button:hover {
+            background-color: #2a4365;
+        }
+
+        .main-content {
+            padding: 24px;
+            background-color: #f9fafb;
+            min-height: calc(100vh - 100px);
+        }
+
+        .card {
+            background-color: #ffffff;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        }
+        
+        
+    </style>
+</head>
+
+<body>
+    <!-- Sidebar via iframe -->
+    <iframe src="superadminsidebar.html"></iframe>
+
+    <div class="ml-64">
+        <div>
+            <!-- Header -->
+            <div class="header">
+                <h3>Selamat Datang Pengguna</h3>
+                <div class="controls">
+                    <!-- Dropdown -->
+                    <div>
+                        <label for="timeframe" class="block text-sm font-medium text-gray-600">Jenis</label>
+                        <select id="timeframe" class="w-40">
+                            <option value="Harian">Harian</option>
+                            <option value="Mingguan" selected>Mingguan</option>
+                            <option value="Bulanan">Bulanan</option>
+                        </select>
+                    </div>
+
+                    <!-- Date -->
+                    <div>
+                        <label for="date" class="block text-sm font-medium text-gray-600">Tarikh</label>
+                        <input type="date" id="date" class="w-48">
+                    </div>
+
+                    <!-- Export Button -->
+                    <div>
+                        <label class="block text-sm font-medium text-transparent">Placeholder</label>
+                        <button class="w-32 flex items-center justify-center">
+                            <i class="fa fa-download"></i> Export
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="main-content">
+                <!-- Stats Cards -->
+                <div class="grid grid-cols-3 gap-4 mb-8">
+                    <div class="card bg-white p-6 rounded-lg shadow">
+                        <div class="flex items-center">
+                            <i class="fas fa-users fa-2x text-blue-900 mr-4"></i>
+                            <div>
+                                <h3 class="text-lg text-blue-900 font-bold">Bilangan State Admin</h3>
+                                <p class="text-3xl font-bold text-blue-900">48</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card bg-white p-6 rounded-lg shadow">
+                        <div class="flex items-center">
+                            <i class="fas fa-user-shield fa-2x text-blue-900 mr-4"></i>
+                            <div>
+                                <h3 class="text-lg text-blue-900 font-bold">Bilangan PPD Admin</h3>
+                                <p class="text-3xl font-bold text-blue-900">800</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card bg-white p-6 rounded-lg shadow">
+                        <div class="flex items-center">
+                            <i class="fas fa-user-graduate fa-2x text-blue-900 mr-4"></i>
+                            <div>
+                                <h3 class="text-lg text-blue-900 font-bold">Bilangan Sekolah Admin</h3>
+                                <p class="text-3xl font-bold text-blue-900">4000</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts -->
+                <div class="grid grid-cols-2 gap-8 gap-y-8">
+                    <!-- Bar Chart -->
+                    <div class="bg-white p-6 rounded-lg shadow mb-8">
+                        <h3 class="text-lg text-center text-blue-900 font-bold mb-4">Bilangan Pengguna Mengikut Jenis</h3>
+                        <canvas id="barChart"></canvas>
+                    </div>
+
+                    <!-- Pie Chart -->
+                    <div class="bg-white p-6 rounded-lg shadow mb-8">
+                        <h3 class="text-lg text-center text-blue-900 font-bold mb-4">Bilangan Peratusan Pengguna Mengikut Jenis</h3>
+                        <canvas id="pieChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Additional Charts -->
+                <div class="grid grid-cols-2 gap-8 gap-y-8">
+                    <!-- Line Chart -->
+                    <div class="bg-white p-6 rounded-lg shadow mb-8">
+                        <h3 class="text-lg text-center text-blue-900 font-bold mb-4"></h3>
+                        <canvas id="lineChart"></canvas>
+                    </div>
+
+                    <!-- Doughnut Chart -->
+                    <div class="bg-white p-6 rounded-lg shadow mb-8">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-lg text-blue-900 font-bold">Pengguna Dalam Tempoh 30 Minit Terakhir</h3>
+                    <div class="flex justify-center mb-4">
+                        <select id="stateDropdown" class="w-60 p-2 border border-gray-300 rounded">
+                            <option value="all">Semua Negeri</option>
+                            <option value="johor">Johor</option>
+                            <option value="kedah">Kedah</option>
+                            <option value="kelantan">Kelantan</option>
+                            <option value="melaka">Melaka (Malacca)</option>
+                            <option value="negeriSembilan">Negeri Sembilan</option>
+                            <option value="pahang">Pahang</option>
+                            <option value="perak">Perak</option>
+                            <option value="perlis">Perlis</option>
+                            <option value="penang">Pulau Pinang (Penang)</option>
+                            <option value="sabah">Sabah</option>
+                            <option value="sarawak">Sarawak</option>
+                            <option value="selangor">Selangor</option>
+                            <option value="terengganu">Terengganu</option>
+                        </select>
+                    </div>
+                </div>
+                <canvas id="doughnutChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <footer>
+                © 2024 Kementerian Pendidikan Malaysia (KPM)
+            </footer>
+        </div>
+    </div>
+
+    <script>
+        // Bar Chart
+        const barCtx = document.getElementById('barChart').getContext('2d');
+        new Chart(barCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Admin State', 'Admin PPD', 'Admin Sekolah'],
+                datasets: [{
+                    label: 'Bilangan',
+                    data: [1000, 800, 4000],
+                    backgroundColor: ['#1e3a8a', '#2563eb', '#60a5fa'],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Pie Chart
+        const pieCtx = document.getElementById('pieChart').getContext('2d');
+        new Chart(pieCtx, {
+            type: 'pie',
+            data: {
+                labels: ['Admin State', 'Admin PPD', 'Admin Sekolah'],
+                datasets: [{
+                    data: [48, 800, 4000],
+                    backgroundColor: ['#1e3a8a', '#f87171', '#fbbf24']
+                }]
+            },
+            options: {
+                responsive: true
+            }
+        });
+
+        // Line Chart
+        const lineCtx = document.getElementById('lineChart').getContext('2d');
+        new Chart(lineCtx, {
+            type: 'line',
+            data: {
+                labels: ['1 Jun', '2 Jun', '3 Jun', '4 Jun', '5 Jun', '6 Jun', '7 Jun'],
+                datasets: [
+                    {
+                        label: 'Admin State Login',
+                        data: [500, 300, 800, 200, 400, 600, 700],
+                        borderColor: '#1e3a8a',
+                        fill: false,
+                        tension: 0.4,
+                    },
+                    {
+                        label: 'Admin PPD Login',
+                        data: [300, 400, 600, 300, 200, 100, 500],
+                        borderColor: '#2563eb',
+                        fill: false,
+                        tension: 0.4,
+                    },
+                    {
+                        label: 'Admin Sekolah Login',
+                        data: [1000, 1200, 1500, 1000, 800, 1200, 1400],
+                        borderColor: '#60a5fa',
+                        fill: false,
+                        tension: 0.4,
+                    },
+                ],
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                    },
+                },
+            },
+        });
+
+     // Initialize Doughnut Chart
+        const doughnutCtx = document.getElementById('doughnutChart').getContext('2d');
+        const doughnutChart = new Chart(doughnutCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Admin State', 'Admin PPD', 'Admin Sekolah'],
+                datasets: [
+                    {
+                        data: [10, 30, 60], // Default data (Semua Negeri)
+                        backgroundColor: ['#1e3a8a', '#2563eb', '#60a5fa'],
+                    },
+                ],
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                    },
+                },
+            },
+        });
+
+        // Update Chart Based on Dropdown Selection
+        document.getElementById('stateDropdown').addEventListener('change', function () {
+            const selectedState = this.value;
+
+            // Example data for each state (replace with actual data)
+            let newData;
+            switch (selectedState) {
+                case 'all':
+                    newData = [10, 30, 60]; // Default data
+                    break;
+                case 'johor':
+                    newData = [15, 25, 60]; // Johor data
+                    break;
+                case 'kedah':
+                    newData = [10, 40, 50]; // Kedah data
+                    break;
+                case 'kelantan':
+                    newData = [20, 20, 60]; // Kelantan data
+                    break;
+                case 'melaka':
+                    newData = [10, 35, 55]; // Melaka data
+                    break;
+                default:
+                    newData = [10, 30, 60]; // Fallback data
+                    break;
+            }
+
+            // Update Doughnut Chart
+            doughnutChart.data.datasets[0].data = newData;
+            doughnutChart.update();
+        });
+    </script>
+</body>
+
+</html>

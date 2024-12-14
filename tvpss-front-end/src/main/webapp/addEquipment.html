@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Equipment</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8;
+            margin: 0;
+            padding: 0;
+        }
+
+        iframe {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 300px;
+            height: 100vh;
+            border: none;
+            background-color: #1f2937;
+        }
+
+        .ml-64 {
+            margin-left: 300px;
+        }
+
+        footer {
+            background-color: #ffffff;
+            padding: 16px 32px;
+            border-top: 1px solid #e5e7eb;
+            text-align: center;
+            color: #2a4365;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .header {
+            background-color: #ffffff;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 20px 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .header h3 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #374151;
+        }
+
+        .main-content {
+            padding: 24px;
+            background-color: #f9fafb;
+            min-height: calc(100vh - 100px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .form-container {
+            background: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 800px;
+            padding: 30px;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .form-container:hover {
+            transform: translateY(-5px);
+        }
+
+        .form-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #374151;
+        }
+
+        .input-icon {
+            display: flex;
+            align-items: center;
+            background-color: #f9fafb;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            padding: 10px 16px;
+            transition: all 0.3s ease;
+        }
+
+        .input-icon i {
+            color: #4c6b8f;
+            margin-right: 12px;
+        }
+
+        .input-icon input,
+        .input-icon select {
+            border: none;
+            outline: none;
+            flex: 1;
+            font-size: 1rem;
+            color: #2a4365;
+            background: transparent;
+            padding: 10px 12px;
+        }
+
+        .input-icon:hover {
+            border-color: #4c6b8f;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-cancel {
+            background-color: #e5e7eb;
+            color: #374151;
+            margin-right: 16px;
+        }
+
+        .btn-cancel:hover {
+            background-color: #d1d5db;
+        }
+
+        .btn-add {
+            background-color: #4c6b8f;
+            color: white;
+        }
+
+        .btn-add:hover {
+            background-color: #3b5475;
+        }
+
+        .footer-text {
+            font-size: 1rem;
+            color: #6b7280;
+        }
+
+        .input-icon select:focus,
+        .input-icon input:focus {
+            border-color: #4c6b8f;
+            box-shadow: 0 0 0 2px rgba(72, 126, 242, 0.3);
+        }
+
+        .form-group select,
+        .form-group input {
+            transition: all 0.2s ease;
+        }
+
+    </style>
+</head>
+
+<body>
+    <!-- Sidebar via iframe -->
+    <iframe src="schooladminSidebar.html"></iframe>
+
+    <div class="ml-64">
+        <div>
+            <!-- Header -->
+            <div class="header">
+                <h3>Tambah Peralatan</h3>
+            </div>
+
+            <!-- Main Content -->
+            <div class="main-content">
+                <!-- Form for Updating Equipment -->
+                <div class="form-container">
+                    <h4 class="form-title">Tambah Peralatan</h4>
+                    <form>
+                        <!-- Nama Barang -->
+                        <div class="form-group">
+                            <label for="itemName">Nama Barang</label>
+                            <div class="input-icon">
+                                <i class="fas fa-box"></i>
+                                <input type="text" id="itemName" name="itemName" placeholder="Masukkan Nama Barang" required>
+                            </div>
+                        </div>
+
+                        <!-- Jenis -->
+                        <div class="form-group">
+                            <label for="itemType">Jenis</label>
+                            <div class="input-icon">
+                                <i class="fas fa-cogs"></i>
+                                <input type="text" id="itemType" name="itemType" placeholder="Masukkan Jenis Peralatan" required>
+                            </div>
+                        </div>
+
+                        <!-- Lokasi -->
+                        <div class="form-group">
+                            <label for="itemLocation">Lokasi</label>
+                            <div class="input-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <input type="text" id="itemLocation" name="itemLocation" placeholder="Masukkan Lokasi Peralatan" required>
+                            </div>
+                        </div>
+
+                        <!-- Tarikh Diperolehi -->
+                        <div class="form-group">
+                            <label for="dateAcquired">Tarikh Diperolehi</label>
+                            <div class="input-icon">
+                                <i class="fas fa-calendar-alt"></i>
+                                <input type="date" id="dateAcquired" name="dateAcquired" required>
+                            </div>
+                        </div>
+
+                        <!-- Status -->
+                        <div class="form-group">
+                            <label for="itemStatus">Status</label>
+                            <div class="input-icon">
+                                <i class="fas fa-check-circle"></i>
+                                <select id="itemStatus" name="itemStatus" required>
+                                    <option value="">Pilih Status</option>
+                                    <option value="Berfungsi">Berfungsi</option>
+                                    <option value="Tidak Berfungsi">Tidak Berfungsi</option>
+                                    <option value="Penyelenggaraan">Penyelenggaraan</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Buttons -->
+                        <div class="flex justify-end mt-6">
+                            <button type="button" class="btn btn-cancel">Batal</button>
+                            <button type="submit" class="btn btn-add">Tambah Barang</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <footer>
+                <p class="footer-text">© 2024 Kementerian Pendidikan Malaysia (KPM)</p>
+            </footer>
+        </div>
+    </div>
+</body>
+
+</html>

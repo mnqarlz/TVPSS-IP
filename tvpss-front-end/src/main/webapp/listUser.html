@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>List User</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f9fafb;
+            margin: 0;
+            padding: 0;
+        }
+
+        iframe {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 300px;
+            height: 100vh;
+            border: none;
+            background-color: #1f2937;
+        }
+
+        .ml-64 {
+            margin-left: 300px;
+        }
+
+        footer {
+            background-color: #ffffff;
+            padding: 16px 32px;
+            border-top: 1px solid #e5e7eb;
+            text-align: center;
+            color: #2a4365;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .header {
+            background-color: #ffffff;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 16px 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .header h2 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: #374151;
+        }
+
+        .main-content {
+            padding: 24px;
+            background-color: #f9fafb;
+            min-height: calc(100vh - 100px);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin-top: 20px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+        }
+
+        table thead {
+            background-color: #f3f4f6;
+        }
+
+        table th, table td {
+            padding: 16px 12px;
+            text-align: center;
+            border-bottom: 1px solid #e5e7eb;
+            transition: background-color 0.2s ease;
+        }
+
+        table th {
+            font-weight: 600;
+            color: #374151;
+            text-transform: uppercase;
+            font-size: 0.875rem;
+            letter-spacing: 0.5px;
+        }
+
+        table tr:hover {
+            background-color: #f9fafb;
+        }
+
+        table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .btn-add-user {
+            background-color: #2a4365;
+            color: white;
+            padding: 10px 16px;
+            border-radius: 6px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            transition: background-color 0.2s ease, transform 0.1s ease;
+        }
+
+        .btn-add-user:hover {
+            background-color: #2a4365;
+            transform: translateY(-2px);
+        }
+
+        .btn-add-user i {
+            margin-right: 8px;
+        }
+
+        .action-btns {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .icon-btn {
+            width: 36px;
+            height: 36px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.2s ease;
+            color: white;
+            border: none;
+        }
+
+        .edit-btn {
+            background: linear-gradient(145deg, #388e3c, #2c6e2f); /* Dark Green Gradient */
+        }
+
+        .edit-btn:hover {
+            background: linear-gradient(145deg, #2c6e2f, #388e3c);
+        }
+
+        .delete-btn {
+            background: linear-gradient(145deg, #e53935, #d32f2f); /* Deep Red Gradient */
+        }
+
+        .delete-btn:hover {
+            background: linear-gradient(145deg, #d32f2f, #e53935);
+        }
+        
+        .user-type-badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            display: inline-block;
+        }
+
+        .user-type-admin {
+            background: linear-gradient(145deg, #1e40af, #1e3a8a); /* Deep Blue Gradient */
+            color: white;
+        }
+
+        .user-type-user {
+            background: linear-gradient(145deg, #047857, #065f46); /* Dark Green Gradient */
+            color: white;
+        }
+
+        .filter-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .filter-dropdown {
+            padding: 10px;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            font-size: 0.875rem;
+        }
+
+        .filter-btn {
+            background-color: #2a4365;
+            color: white;
+            padding: 10px 16px;
+            border-radius: 6px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.2s ease;
+        }
+
+        .filter-btn:hover {
+            background-color: #1e3a8a;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 20px;
+            color: #6b7280;
+        }
+
+        .search-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            position: relative;
+        }
+
+        .search-input {
+            flex-grow: 1;
+            padding: 10px;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            font-size: 0.875rem;
+            padding-left: 35px; /* Space for icon */
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #6b7280;
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar via iframe -->
+    <iframe src="superadminsidebar.html"></iframe>
+
+    <div class="ml-64">
+        <div>
+            <!-- Header -->
+            <div class="header">
+                <h3>Semua Pengguna</h3>
+                <!-- Search and Filter Container -->
+                <div class="search-container">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" id="searchInput" class="search-input" placeholder="Cari Pengguna" oninput="searchUser()">
+                    
+                    <select id="userTypeFilter" class="filter-dropdown" onchange="filterByType()">
+                        <option value="">Semua Jenis Pengguna</option>
+                        <option value="superadmin">SUPERADMIN</option>
+                        <option value="state admin">STATE ADMIN</option>
+                        <option value="ppd admin">PPD ADMIN</option>
+                        <option value="school admin">SCHOOL ADMIN</option>
+                    </select>
+
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="flex-1 p-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-xl font-semibold leading-tight text-gray-800">Pengurusan Pengguna</h2>
+                    <button class="btn-add-user">
+                        <i class="fas fa-plus"></i> Tambah Pengguna Baharu
+                    </button>
+                </div>
+
+                <!-- Table -->
+                <table id="userTable">
+                    <thead>
+                        <tr>
+                            <th>Bil</th>
+                            <th>Nama Penuh</th>
+                            <th>Alamat Email</th>
+                            <th>Negeri</th>
+                            <th>Jenis Pengguna</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr data-user-type="superadmin">
+                            <td>1</td>
+                            <td>John Doe</td>
+                            <td>johndoe@example.com</td>
+                            <td>Selangor</td>
+                            <td>
+                                <span class="user-type-badge user-type-admin">SUPERADMIN</span>
+                            </td>
+                            <td>
+                                <div class="action-btns">
+                                    <button class="icon-btn edit-btn" title="Edit">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="icon-btn delete-btn" title="Delete">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr data-user-type="state admin">
+                            <td>2</td>
+                            <td>Amy Tan</td>
+                            <td>amytan@example.com</td>
+                            <td>Kuala Lumpur</td>
+                            <td>
+                                <span class="user-type-badge user-type-user">STATE ADMIN</span>
+                            </td>
+                            <td>
+                                <div class="action-btns">
+                                    <button class="icon-btn edit-btn" title="Edit">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="icon-btn delete-btn" title="Delete">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr data-user-type="ppd admin">
+                            <td>3</td>
+                            <td>Michael Lee</td>
+                            <td>michaellee@example.com</td>
+                            <td>Penang</td>
+                            <td>
+                                <span class="user-type-badge user-type-user">PPD ADMIN</span>
+                            </td>
+                            <td>
+                                <div class="action-btns">
+                                    <button class="icon-btn edit-btn" title="Edit">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="icon-btn delete-btn" title="Delete">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div id="noResultsMessage" class="no-results" style="display: none;">
+                    Tiada pengguna dijumpai.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function searchUser() {
+            let input = document.getElementById('searchInput');
+            let filter = input.value.toLowerCase();
+            let table = document.getElementById('userTable');
+            let rows = table.getElementsByTagName('tr');
+            let noResultsMessage = document.getElementById('noResultsMessage');
+            let visibleRowCount = 0;
+
+            // Loop through all rows, except the first one (header)
+            for (let i = 1; i < rows.length; i++) {
+                let row = rows[i];
+                let td = row.getElementsByTagName('td');
+                let matchFound = false;
+
+                // Loop through each cell of the row and check for a match
+                for (let j = 0; j < td.length; j++) {
+                    if (td[j]) {
+                        let cellText = td[j].textContent || td[j].innerText;
+                        if (cellText.toLowerCase().indexOf(filter) > -1) {
+                            matchFound = true;
+                            break;
+                        }
+                    }
+                }
+
+                // Check if the row should be visible
+                if (matchFound) {
+                    row.style.display = "";
+                    visibleRowCount++;
+                } else {
+                    row.style.display = "none";
+                }
+            }
+
+            // Display no results message if no rows match the search term
+            noResultsMessage.style.display = visibleRowCount > 0 ? 'none' : 'block';
+        }
+
+        function filterByType() {
+            let filterValue = document.getElementById('userTypeFilter').value.toLowerCase();
+            let table = document.getElementById('userTable');
+            let rows = table.getElementsByTagName('tr');
+            let noResultsMessage = document.getElementById('noResultsMessage');
+            let visibleRowCount = 0;
+
+            // Loop through all rows, except the first one (header)
+            for (let i = 1; i < rows.length; i++) {
+                let row = rows[i];
+                let userType = row.getAttribute('data-user-type').toLowerCase();
+
+                if (filterValue === "" || userType.includes(filterValue)) {
+                    row.style.display = "";
+                    visibleRowCount++;
+                } else {
+                    row.style.display = "none";
+                }
+            }
+
+            // Display no results message if no rows match the filter
+            noResultsMessage.style.display = visibleRowCount > 0 ? 'none' : 'block';
+        }
+    </script>
+</body>
+</html>

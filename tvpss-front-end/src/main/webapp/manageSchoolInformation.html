@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update School Info</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8;
+            margin: 0;
+            padding: 0;
+        }
+
+        iframe {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 300px;
+            height: 100vh;
+            border: none;
+            background-color: #1f2937;
+        }
+
+        .ml-64 {
+            margin-left: 300px;
+        }
+
+        footer {
+            background-color: #ffffff;
+            padding: 16px 32px;
+            border-top: 1px solid #e5e7eb;
+            text-align: center;
+            color: #2a4365;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .header {
+            background-color: #ffffff;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 20px 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .header h3 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #374151;
+        }
+
+        .main-content {
+            padding: 24px;
+            background-color: #f9fafb;
+            min-height: calc(100vh - 100px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .form-container {
+            background: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 800px;
+            padding: 30px;
+        }
+
+        .form-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #374151;
+        }
+
+        .input-icon {
+            display: flex;
+            align-items: center;
+            background-color: #f9fafb;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            padding: 10px 16px;
+        }
+
+        .input-icon i {
+            color: #4c6b8f;
+            margin-right: 12px;
+        }
+
+        .input-icon input,
+        .input-icon select {
+            border: none;
+            outline: none;
+            flex: 1;
+            font-size: 1rem;
+            color: #2a4365;
+            background: transparent;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .btn-cancel {
+            background-color: #e5e7eb;
+            color: #374151;
+            margin-right: 16px;
+        }
+
+        .btn-add {
+            background-color: #4c6b8f;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <iframe src="schooladminSidebar.html"></iframe>
+
+    <div class="ml-64">
+        <div>
+            <div class="header">
+                <h3>Informasi Sekolah</h3>
+            </div>
+
+            <div class="main-content">
+                <div class="form-container">
+                    <h4 class="form-title">Maklumat Sekolah</h4>
+                    <form>
+                        <!-- Nama Sekolah -->
+                        <div class="form-group">
+                            <label for="schoolName">Nama Sekolah</label>
+                            <div class="input-icon">
+                                <i class="fas fa-school"></i>
+                                <input type="text" id="schoolName" name="schoolName" placeholder="Masukkan Nama Sekolah" required>
+                            </div>
+                        </div>
+
+                        <!-- Alamat Sekolah 1 -->
+                        <div class="form-group">
+                            <label for="address1">Alamat Sekolah 1</label>
+                            <div class="input-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <input type="text" id="address1" name="address1" placeholder="Masukkan Alamat Sekolah 1" required>
+                            </div>
+                        </div>
+
+                        <!-- Alamat Sekolah 2 -->
+                        <div class="form-group">
+                            <label for="address2">Alamat Sekolah 2</label>
+                            <div class="input-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <input type="text" id="address2" name="address2" placeholder="Masukkan Alamat Sekolah 2">
+                            </div>
+                        </div>
+
+                        <!-- Poskod -->
+                        <div class="form-group">
+                            <label for="postcode">Poskod</label>
+                            <div class="input-icon">
+                                <i class="fas fa-envelope"></i>
+                                <input type="text" id="postcode" name="postcode" placeholder="Masukkan Poskod" required>
+                            </div>
+                        </div>
+
+                        <!-- Negeri -->
+                        <div class="form-group">
+                            <label for="state">Negeri</label>
+                            <div class="input-icon">
+                                <i class="fas fa-globe"></i>
+                                <input type="text" id="state" name="state" placeholder="Masukkan Negeri" required>
+                            </div>
+                        </div>
+
+                        <!-- No Telefon -->
+                        <div class="form-group">
+                            <label for="phone">No Telefon</label>
+                            <div class="input-icon">
+                                <i class="fas fa-phone"></i>
+                                <input type="text" id="phone" name="phone" placeholder="Masukkan No Telefon" required>
+                            </div>
+                        </div>
+
+                        <!-- No Fax -->
+                        <div class="form-group">
+                            <label for="fax">No Fax</label>
+                            <div class="input-icon">
+                                <i class="fas fa-fax"></i>
+                                <input type="text" id="fax" name="fax" placeholder="Masukkan No Fax">
+                            </div>
+                        </div>
+
+                        <!-- Email -->
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <div class="input-icon">
+                                <i class="fas fa-envelope"></i>
+                                <input type="email" id="email" name="email" placeholder="Masukkan Email" required>
+                            </div>
+                        </div>
+
+                        <!-- Upload File -->
+                        <div class="form-group">
+                            <label for="uploadFile">Muat Naik Fail</label>
+                            <div class="input-icon">
+                                <i class="fas fa-upload"></i>
+                                <input type="file" id="uploadFile" name="uploadFile">
+                            </div>
+                        </div>
+
+                        <!-- Link Youtube -->
+                        <div class="form-group">
+                            <label for="youtubeLink">Pautan Youtube</label>
+                            <div class="input-icon">
+                                <i class="fab fa-youtube"></i>
+                                <input type="url" id="youtubeLink" name="youtubeLink" placeholder="Masukkan Pautan Youtube">
+                            </div>
+                        </div>
+
+                        <div class="flex justify-end mt-6">
+                            <button type="button" class="btn btn-cancel">Batal</button>
+                            <button type="submit" class="btn btn-add">Kemas Kini Maklumat</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <footer>
+                <p>© 2024 Kementerian Pendidikan Malaysia (KPM)</p>
+            </footer>
+        </div>
+    </div>
+</body>
+
+</html>
