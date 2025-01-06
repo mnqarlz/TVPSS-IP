@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Authenticated Layout</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+    <!-- Navigation Bar -->
+    <nav class="border-b border-gray-200 bg-white">
+        <div class="mx-2">
+            <div class="flex h-30 justify-end items-center px-2 py-2 space-x-2">
+                <!-- Notification Button -->
+                <button
+                    type="button"
+                    class="bg-white text-[#4158A6] hover:bg-gray-200 focus:outline-none rounded-xl p-2"
+                    aria-label="Notifications"
+                >
+                    <svg
+                        class="w-6 h-6"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
+                        />
+                    </svg>
+                </button>
+
+                <!-- Divider Line -->
+                <div class="w-px h-10 bg-gray-300 transform translate-x-2"></div>
+
+                <!-- Profile Dropdown -->
+                <div class="relative ms-3">
+                    <div class="relative">
+                        <button
+                            type="button"
+                            class="flex items-center space-x-2 rounded-md border border-transparent bg-white px-5 py-2 text-sm font-medium text-gray-500 hover:text-gray-700 focus:outline-none"
+                        >
+                            <!-- Initials Square -->
+                            <div class="flex items-center justify-center w-10 h-10 rounded-full bg-[#4158A6] text-white font-bold">
+                                AA <!-- Replace with initials dynamically -->
+                            </div>
+
+                            <!-- Name and Role -->
+                            <div class="flex flex-col items-start">
+                                <span class="font-bold text-gray-800">User Name</span> <!-- Replace with dynamic user name -->
+                                <span class="text-xs text-gray-500">Role Name</span> <!-- Replace with dynamic role -->
+                            </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+
+    <!-- Main Content -->
+    <main class="mx-auto">
+        <!-- Children Content Goes Here -->
+    </main>
+</body>
+</html>

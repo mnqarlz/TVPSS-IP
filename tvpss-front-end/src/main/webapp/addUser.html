@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Update User</title>
+    <title>TVPSS | Tambah Pengguna Baharu</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -179,8 +179,6 @@
 </head>
 
 <body>
-    <!-- Sidebar via iframe -->
-    <iframe src="superadminsidebar.html"></iframe>
 
     <div class="ml-64">
         <div>
@@ -191,7 +189,7 @@
 
             <!-- Main Content -->
             <div class="main-content">
-                <!-- Form for Updating User -->
+                <!-- Form for Adding New User -->
                 <div class="form-container">
                     <h4 class="form-title">Tambah Pengguna Baharu</h4>
                     <form>
@@ -213,6 +211,24 @@
                             </div>
                         </div>
 
+                        <!-- Kata Laluan -->
+                        <div class="form-group">
+                            <label for="password">Kata Laluan</label>
+                            <div class="input-icon">
+                                <i class="fas fa-lock"></i>
+                                <input type="password" id="password" name="password" placeholder="Masukkan Kata Laluan" required>
+                            </div>
+                        </div>
+
+                        <!-- Sahkan Kata Laluan -->
+                        <div class="form-group">
+                            <label for="confirmPassword">Sahkan Kata Laluan</label>
+                            <div class="input-icon">
+                                <i class="fas fa-lock"></i>
+                                <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Sahkan Kata Laluan" required>
+                            </div>
+                        </div>
+
                         <!-- Jenis Pengguna -->
                         <div class="form-group">
                             <label for="userType">Jenis Pengguna</label>
@@ -229,11 +245,42 @@
                             </div>
                         </div>
 
+                        <!-- Negeri -->
+                        <div class="form-group">
+                            <label for="state">Negeri</label>
+                            <div class="input-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <select id="state" name="state" required>
+                                    <option value="">Pilih Negeri</option>
+                                    <!-- Add your states here -->
+                                    <option value="Johor">Johor</option>
+                                    <option value="Kedah">Kedah</option>
+                                    <option value="Kelantan">Kelantan</option>
+                                    <option value="Melaka">Melaka</option>
+                                    <option value="Negeri Sembilan">Negeri Sembilan</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Daerah -->
+                        <div class="form-group">
+                            <label for="district">Daerah</label>
+                            <div class="input-icon">
+                                <i class="fas fa-map"></i>
+                                <select id="district" name="district" required>
+                                    <option value="">Pilih Daerah</option>
+                                    <!-- Add your districts here -->
+                                    <option value="Johor Bahru">Johor Bahru</option>
+                                    <option value="Kota Bharu">Kota Bharu</option>
+                                    <option value="Alor Setar">Alor Setar</option>
+                                </select>
+                            </div>
+                        </div>
 
                         <!-- Buttons -->
                         <div class="flex justify-end mt-6">
                             <button type="button" class="btn btn-cancel">Batal</button>
-                            <button type="submit" class="btn btn-add">Kemas Kini Pengguna</button>
+                            <button type="submit" class="btn btn-add">Tambah Pengguna</button>
                         </div>
                     </form>
                 </div>

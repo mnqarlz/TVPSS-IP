@@ -4,14 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>State Dashboard</title>
+    <title>Dashboard PPDAdmin</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f9fafb;
+            background-color: #ffff;
             margin: 0;
             padding: 0;
         }
@@ -52,7 +52,7 @@
             box-sizing: border-box;
         }
 
-        .header h3 {
+        .header h2 {
             font-size: 1.75rem;
             font-weight: 700;
             color: #374151;
@@ -76,7 +76,7 @@
         .header .controls button {
             padding: 10px 20px;
             border-radius: 8px;
-            background-color: #2a4365;
+            background-color: #28559c;
             color: white;
             font-weight: 600;
             display: flex;
@@ -95,236 +95,332 @@
             min-height: calc(100vh - 100px);
         }
 
-        .card {
-            background-color: #ffffff;
+        .stat-card {
+            transition: transform 0.2s;
+        }
+
+        .stat-card:hover {
+            transform: scale(1.02);
+        }
+
+        .icon-wrapper {
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             border-radius: 12px;
-            padding: 20px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .chart-container {
             transition: transform 0.2s, box-shadow 0.2s;
         }
 
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        .chart-container:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
         }
 
-        /* Adjust layout for charts to be next to each other */
-        .charts-container {
-            display: flex;
-            gap: 16px;
-            justify-content: space-between;
-            flex-wrap: wrap; /* Ensure charts wrap on smaller screens */
+        .chart-title {
+            position: relative;
+            display: inline-block;
         }
 
-        .chart-wrapper {
-            width: 48%; /* Make each chart take up 48% of the width */
-            margin-bottom: 16px; /* Add space between chart wrappers */
+        .chart-title::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 3px;
+            background: #1E3A8A;
+            border-radius: 2px;
         }
 
-        /* Responsive adjustments */
-        @media (max-width: 768px) {
-            .header .controls {
-                flex-direction: column;
-                gap: 10px;
-            }
+        .aktiviti-terkini {
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
 
-            .charts-container {
-                flex-direction: column;
-            }
+        .aktiviti-terkini:hover {
+            transform: scale(1.02);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
 
-            .chart-wrapper {
-                width: 100%;
-            }
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9fafb;
+            box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+            min-width: 160px;
+            z-index: 1;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .dropdown-item {
+            padding: 10px;
+            text-align: center;
+            cursor: pointer;
+            color: #1E3A8A;
+        }
+
+        .dropdown-item:hover {
+            background-color: #e0f4ff;
         }
     </style>
 </head>
 
 <body>
-    <!-- Sidebar via iframe -->
-    <iframe src="stateadminSidebar.html"></iframe>
-
     <div class="ml-64">
         <div>
-            <!-- Header -->
             <div class="header">
-                <h3>Selamat Datang Pengguna</h3>
+                <h2 class="text-2xl font-bold text-blue-900">Dashboard</h2>
                 <div class="controls">
-                    <!-- Dropdown -->
                     <div>
-                        <label for="timeframe" class="block text-sm font-medium text-gray-600">Jenis</label>
-                        <select id="timeframe" class="w-40">
-                            <option value="Harian">Harian</option>
-                            <option value="Mingguan" selected>Mingguan</option>
-                            <option value="Bulanan">Bulanan</option>
-                        </select>
+                        <div class="select-wrapper">
+                            <select id="timeframe" class="custom-select w-40">
+                                <option value="Harian">Harian</option>
+                                <option value="Mingguan" selected>Mingguan</option>
+                                <option value="Bulanan">Bulanan</option>
+                            </select>
+                        </div>
                     </div>
-
-                    <!-- Date -->
                     <div>
-                        <label for="date" class="block text-sm font-medium text-gray-600">Tarikh</label>
-                        <input type="date" id="date" class="w-48">
+                        <input type="date" id="date" class="custom-date w-48">
                     </div>
-
-                    <!-- Export Button -->
                     <div>
-                        <label class="block text-sm font-medium text-transparent">Placeholder</label>
-                        <button class="w-32 flex items-center justify-center">
-                            <i class="fa fa-download"></i> Export
+                        <label class="block text-transparent control-label"></label>
+                        <button class="export-button flex items-center space-x-2">
+                            <i class="fas fa-download text-sm"></i>
+                            <span>Export</span>
                         </button>
                     </div>
                 </div>
             </div>
 
-            <!-- Main Content -->
             <div class="main-content">
-                <!-- Stats Cards -->
                 <div class="grid grid-cols-3 gap-4 mb-8">
-                    <div class="card bg-white p-6 rounded-lg shadow">
-                        <div class="flex items-center">
-                            <i class="fas fa-certificate fa-2x text-blue-900 mr-4"></i>
-                            <div>
-                                <h3 class="text-lg text-blue-900 font-bold">Bilangan Permohonan Sijil</h3>
-                                <p class="text-3xl font-bold text-blue-900">48</p>
+                    <div class="stat-card bg-white border border-gray-300 rounded-2xl p-6">
+                        <div class="icon-wrapper bg-purple-100">
+                            <i class="fas fa-certificate text-xl text-purple-600"></i>
+                        </div>
+                        <h3 class="text-gray-600 font-medium mb-2">Bilangan Permohonan Sijil</h3>
+                        <p class="text-3xl font-bold text-gray-800">48</p>
+                    </div>
+
+                    <div class="stat-card bg-white border border-gray-300 rounded-2xl p-6">
+                        <div class="icon-wrapper bg-green-100">
+                            <i class="fas fa-trophy text-xl text-green-600"></i>
+                        </div>
+                        <h3 class="text-gray-600 font-medium mb-2">Bilangan Pencapaian</h3>
+                        <p class="text-3xl font-bold text-gray-800">30</p>
+                    </div>
+
+                    <div class="stat-card bg-white border border-gray-300 rounded-2xl p-6">
+                        <div class="icon-wrapper bg-blue-100">
+                            <i class="fas fa-map-marker-alt text-xl text-blue-600"></i>
+                        </div>
+                        <h3 class="text-gray-600 font-medium mb-2">Bilangan TVPSS Mengikut Negeri</h3>
+                        <p class="text-3xl font-bold text-gray-800">30</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-8 gap-y-8 mb-8">
+                    <div class="chart-container bg-white border border-gray-300 p-8 rounded-2xl">
+                        <h3 class="chart-title text-xl text-center text-blue-900 font-bold mb-8">
+                            Bilangan Sekolah Mengikut Versi
+                        </h3>
+                        <div class="h-80 relative">
+                            <canvas id="barChart"></canvas>
+                        </div>
+                        <div class="mt-6 grid grid-cols-3 gap-4">
+                            <div class="text-center">
+                                <div class="text-sm text-gray-600">State Admin</div>
+                                <div class="font-bold text-blue-900">48</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-sm text-gray-600">PPD Admin</div>
+                                <div class="font-bold text-blue-900">800</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-sm text-gray-600">Sekolah Admin</div>
+                                <div class="font-bold text-blue-900">4,000</div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="card bg-white p-6 rounded-lg shadow">
-                        <div class="flex items-center">
-                            <i class="fas fa-trophy fa-2x text-blue-900 mr-4"></i>
-                            <div>
-                                <h3 class="text-lg text-blue-900 font-bold">Bilangan Pencapaian</h3>
-                                <p class="text-3xl font-bold text-blue-900">800</p>
+                    <div class="chart-container bg-white border border-gray-300 p-8 rounded-2xl">
+                        <h3 class="chart-title text-xl text-center text-blue-900 font-bold mb-8">
+                            Jumlah Peratusan Mengikut Versi
+                        </h3>
+                        <div class="h-80 relative">
+                            <canvas id="pieChart"></canvas>
+                        </div>
+                        <div class="mt-6 flex justify-center space-x-6">
+                            <div class="flex items-center">
+                                <span class="w-3 h-3 rounded-full bg-blue-500 mr-2"></span>
+                                <span class="text-sm text-gray-600">State (0.99%)</span>
+                            </div>
+                            <div class="flex items-center">
+                                <span class="w-3 h-3 rounded-full bg-indigo-500 mr-2"></span>
+                                <span class="text-sm text-gray-600">PPD (16.51%)</span>
+                            </div>
+                            <div class="flex items-center">
+                                <span class="w-3 h-3 rounded-full bg-purple-500 mr-2"></span>
+                                <span class="text-sm text-gray-600">Sekolah (82.50%)</span>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="card bg-white p-6 rounded-lg shadow">
-                        <div class="flex items-center">
-                            <i class="fas fa-school fa-2x text-blue-900 mr-4"></i>
-                            <div>
-                                <h3 class="text-lg text-blue-900 font-bold">Bilangan TVPSS Mengikut Negeri</h3>
-                                <p class="text-3xl font-bold text-blue-900">400</p>
+                        <div class="dropdown mt-4">
+                            <button class="bg-blue-600 text-white px-4 py-2 rounded-lg">Select Version</button>
+                            <div class="dropdown-content">
+                                <div class="dropdown-item">Versi 1</div>
+                                <div class="dropdown-item">Versi 2</div>
+                                <div class="dropdown-item">Versi 3</div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Charts -->
-                <div class="charts-container">
-                    <!-- Bar Chart -->
-                    <div class="chart-wrapper">
-                        <div class="bg-white p-6 rounded-lg shadow">
-                            <h3 class="text-lg text-center text-blue-900 font-bold mb-4">Bilangan Sekolah Mengikut Versi</h3>
-                            <canvas id="barChart"></canvas>
-                        </div>
-                    </div>
-
-                    <!-- Doughnut Chart -->
-                    <div class="chart-wrapper">
-                        <div class="bg-white p-6 rounded-lg shadow">
-                            <div class="flex justify-between items-center mb-4">
-                                <h3 class="text-lg text-blue-900 font-bold">Jumlah Peratusan Mengikut Versi</h3>
-                                <div class="flex justify-center mb-4">
-                                    <select id="stateDropdown" class="w-60 p-2 border border-gray-300 rounded">
-                                        <option value="all">Pilih Versi</option>
-                                        <option value="versi 1">Versi 1</option>
-                                        <option value="versi 2">Versi 2</option>
-                                        <option value="versi 3">Versi 3</option>
-                                        <option value="versi 4">Versi 4</option>
-                                    </select>
+                <div class="bg-white mt-4 mb-4 p-6 rounded-2xl border border-gray-300 w-full">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">Aktiviti Terkini</h3>
+                    <div class="overflow-auto max-h-96">
+                        <div class="flex items-start justify-between mb-4 p-3 bg-gray-50 rounded-lg">
+                            <div class="flex items-center">
+                                <span class="icon-wrapper bg-blue-100 p-3 rounded-full">
+                                    <i class="fas fa-check-circle text-blue-500"></i>
+                                </span>
+                                <div class="ml-3">
+                                    <p class="text-gray-700 text-sm font-semibold">User created a new post</p>
+                                    <p class="text-gray-500 text-xs">2025-01-06 10:30 AM</p>
                                 </div>
                             </div>
-                            <canvas id="doughnutChart"></canvas>
+                            <div class="flex items-center">
+                                <p class="text-sm text-green-600">Success</p>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Footer -->
             <footer>
-                © 2024 Kementerian Pendidikan Malaysia (KPM)
+                <p>&copy;  2024 Kementerian Pendidikan Malaysia (KPM)</p>
             </footer>
         </div>
     </div>
 
     <script>
+        const fonts = {
+            family: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif'
+        };
+
+        // Data for charts
+        const data = {
+            labels: ['State Admin', 'PPD Admin', 'Sekolah Admin'],
+            values: [48, 800, 4000],
+            colors: ['rgba(59, 130, 246, 0.8)', 'rgba(99, 102, 241, 0.8)', 'rgba(147, 51, 234, 0.8)'],
+            borderColors: ['rgb(59, 130, 246)', 'rgb(99, 102, 241)', 'rgb(147, 51, 234)']
+        };
+
         // Bar Chart
         const barCtx = document.getElementById('barChart').getContext('2d');
         new Chart(barCtx, {
             type: 'bar',
             data: {
-                labels: ['Versi 1', 'Versi 2', 'Versi 3'],
+                labels: data.labels,
                 datasets: [{
-                    label: 'Bilangan',
-                    data: [1000, 800, 4000],
-                    backgroundColor: ['#1e3a8a', '#2563eb', '#60a5fa'],
-                    borderWidth: 1
+                    data: data.values,
+                    backgroundColor: data.colors,
+                    borderColor: data.borderColors,
+                    borderWidth: 1,
+                    borderRadius: 6,
+                    maxBarThickness: 60
                 }]
             },
             options: {
                 responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                        padding: 12,
+                        titleFont: { ...fonts, size: 14 },
+                        bodyFont: { ...fonts, size: 13 },
+                        displayColors: false
+                    }
+                },
                 scales: {
                     y: {
-                        beginAtZero: true
+                        beginAtZero: true,
+                        grid: {
+                            drawBorder: false,
+                            color: 'rgba(0, 0, 0, 0.05)'
+                        },
+                        ticks: {
+                            font: { ...fonts, size: 12 }
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        },
+                        ticks: {
+                            font: { ...fonts, size: 12 }
+                        }
                     }
                 }
             }
         });
 
-        // Initialize Doughnut Chart
-        const doughnutCtx = document.getElementById('doughnutChart').getContext('2d');
-        const doughnutChart = new Chart(doughnutCtx, {
+        // Pie Chart
+        const pieCtx = document.getElementById('pieChart').getContext('2d');
+        new Chart(pieCtx, {
             type: 'doughnut',
             data: {
-                labels: ['Johor Bahru', 'Skudai', 'Batui Pahat', 'Kluang'],
-                datasets: [
-                    {
-                        data: [10, 30, 60], // Default data (Semua Negeri)
-                        backgroundColor: ['#1e3a8a', '#2563eb', '#60a5fa', '#34d399'],
-                    },
-                ],
+                labels: data.labels,
+                datasets: [{
+                    data: data.values,
+                    backgroundColor: data.colors,
+                    borderColor: data.borderColors,
+                    borderWidth: 1
+                }]
             },
             options: {
                 responsive: true,
+                maintainAspectRatio: false,
+                cutout: '60%',
                 plugins: {
                     legend: {
                         position: 'bottom',
+                        labels: {
+                            font: { ...fonts, size: 12 },
+                            padding: 20,
+                            usePointStyle: true,
+                            pointStyle: 'circle'
+                        }
                     },
-                },
-            },
-        });
-
-        // Update Chart Based on Dropdown Selection
-        document.getElementById('stateDropdown').addEventListener('change', function () {
-            const selectedState = this.value;
-
-            // Example data for each state (replace with actual data)
-            let newData;
-            switch (selectedState) {
-                case 'all':
-                    newData = [10, 30, 60]; // Default data
-                    break;
-                case 'versi 1':
-                    newData = [15, 25, 60]; // Johor data
-                    break;
-                case 'versi 2':
-                    newData = [10, 40, 50]; // Kedah data
-                    break;
-                case 'versi 3':
-                    newData = [20, 20, 60]; // Kelantan data
-                    break;
-                case 'versi 4':
-                    newData = [10, 35, 55]; // Melaka data
-                    break;
-                default:
-                    newData = [10, 30, 60]; // Fallback data
-                    break;
+                    tooltip: {
+                        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                        padding: 12,
+                        titleFont: { ...fonts, size: 14 },
+                        bodyFont: { ...fonts, size: 13 },
+                        displayColors: false
+                    }
+                }
             }
-
-            // Update Doughnut Chart
-            doughnutChart.data.datasets[0].data = newData;
-            doughnutChart.update();
         });
     </script>
 </body>

@@ -1,29 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ms">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Update Password</title>
+    <title>Tetapan Pengguna</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         body {
             font-family: 'Inter', sans-serif;
             background-color: #f0f4f8;
             margin: 0;
             padding: 0;
-        }
-
-        iframe {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 300px;
-            height: 100vh;
-            border: none;
-            background-color: #1f2937;
         }
 
         .ml-64 {
@@ -64,7 +53,8 @@
             min-height: calc(100vh - 100px);
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: flex-start;
+            gap: 24px;
         }
 
         .form-container {
@@ -74,11 +64,6 @@
             width: 100%;
             max-width: 800px;
             padding: 30px;
-            transition: all 0.3s ease-in-out;
-        }
-
-        .form-container:hover {
-            transform: translateY(-5px);
         }
 
         .form-title {
@@ -107,7 +92,6 @@
             border: 1px solid #d1d5db;
             border-radius: 8px;
             padding: 10px 16px;
-            transition: all 0.3s ease;
         }
 
         .input-icon i {
@@ -115,8 +99,7 @@
             margin-right: 12px;
         }
 
-        .input-icon input,
-        .input-icon select {
+        .input-icon input {
             border: none;
             outline: none;
             flex: 1;
@@ -126,18 +109,12 @@
             padding: 10px 12px;
         }
 
-        .input-icon:hover {
-            border-color: #4c6b8f;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
         .btn {
             padding: 12px 24px;
             border-radius: 8px;
             font-weight: 600;
             text-align: center;
             cursor: pointer;
-            transition: all 0.3s ease;
         }
 
         .btn-cancel {
@@ -159,33 +136,18 @@
             background-color: #3b5475;
         }
 
-        .footer-text {
-            font-size: 1rem;
-            color: #6b7280;
+        .btn-delete {
+            background-color: #e53e3e;
+            color: white;
         }
 
-        .input-icon select:focus,
-        .input-icon input:focus {
-            border-color: #4c6b8f;
-            box-shadow: 0 0 0 2px rgba(72, 126, 242, 0.3);
+        .btn-delete:hover {
+            background-color: #c53030;
         }
-
-        .form-group select,
-        .form-group input {
-            transition: all 0.2s ease;
-        }
-
-        .eye-icon {
-            cursor: pointer;
-            color: #4c6b8f;
-        }
-
     </style>
 </head>
 
 <body>
-    <!-- Sidebar via iframe -->
-    <iframe src="superadminsidebar.html"></iframe>
 
     <div class="ml-64">
         <div>
@@ -196,46 +158,75 @@
 
             <!-- Main Content -->
             <div class="main-content">
-                <!-- Form for Updating Password -->
+                <!-- Update Password Section -->
                 <div class="form-container">
                     <h4 class="form-title">Kemaskini Kata Laluan</h4>
                     <form>
-                        <!-- Kata Laluan Semasa -->
                         <div class="form-group">
                             <label for="currentPassword">Kata Laluan Semasa</label>
                             <div class="input-icon">
                                 <i class="fas fa-lock"></i>
                                 <input type="password" id="currentPassword" name="currentPassword" placeholder="Masukkan Kata Laluan Semasa" required>
-                                <i class="fas fa-eye eye-icon" id="eye1" onclick="togglePassword('currentPassword', 'eye1')"></i>
                             </div>
                         </div>
 
-                        <!-- Kata Laluan Baharu -->
                         <div class="form-group">
                             <label for="newPassword">Kata Laluan Baharu</label>
                             <div class="input-icon">
                                 <i class="fas fa-lock"></i>
                                 <input type="password" id="newPassword" name="newPassword" placeholder="Masukkan Kata Laluan Baharu" required>
-                                <i class="fas fa-eye eye-icon" id="eye2" onclick="togglePassword('newPassword', 'eye2')"></i>
                             </div>
                         </div>
 
-                        <!-- Sahkan Kata Laluan -->
                         <div class="form-group">
                             <label for="confirmPassword">Sahkan Kata Laluan</label>
                             <div class="input-icon">
                                 <i class="fas fa-lock"></i>
                                 <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Sahkan Kata Laluan" required>
-                                <i class="fas fa-eye eye-icon" id="eye3" onclick="togglePassword('confirmPassword', 'eye3')"></i>
                             </div>
                         </div>
 
-                        <!-- Buttons -->
                         <div class="flex justify-end mt-6">
                             <button type="button" class="btn btn-cancel">Batal</button>
-                            <button type="submit" class="btn btn-add">Kemas Kini Kata Laluan</button>
+                            <button type="submit" class="btn btn-add">Kemaskini Kata Laluan</button>
                         </div>
                     </form>
+                </div>
+
+                <!-- Update Personal Information Section -->
+                <div class="form-container">
+                    <h4 class="form-title">Kemaskini Maklumat Peribadi</h4>
+                    <form>
+                        <div class="form-group">
+                            <label for="name">Nama</label>
+                            <div class="input-icon">
+                                <i class="fas fa-user"></i>
+                                <input type="text" id="name" name="name" placeholder="Masukkan Nama Anda" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Emel</label>
+                            <div class="input-icon">
+                                <i class="fas fa-envelope"></i>
+                                <input type="email" id="email" name="email" placeholder="Masukkan Emel Anda" required>
+                            </div>
+                        </div>
+
+                        <div class="flex justify-end mt-6">
+                            <button type="button" class="btn btn-cancel">Batal</button>
+                            <button type="submit" class="btn btn-add">Kemaskini Maklumat</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Delete Account Section -->
+                <div class="form-container">
+                    <h4 class="form-title text-red-600">Padam Akaun</h4>
+                    <p class="text-red-500 text-sm mb-4">Padam akaun anda akan menghapuskan semua data secara kekal. Tindakan ini tidak boleh dibatalkan.</p>
+                    <div class="flex justify-end">
+                        <button type="button" class="btn btn-delete">Padam Akaun</button>
+                    </div>
                 </div>
             </div>
 
@@ -246,21 +237,6 @@
         </div>
     </div>
 
-    <script>
-        function togglePassword(inputId, eyeIconId) {
-            const inputField = document.getElementById(inputId);
-            const eyeIcon = document.getElementById(eyeIconId);
-            if (inputField.type === 'password') {
-                inputField.type = 'text';
-                eyeIcon.classList.remove('fa-eye');
-                eyeIcon.classList.add('fa-eye-slash');
-            } else {
-                inputField.type = 'password';
-                eyeIcon.classList.remove('fa-eye-slash');
-                eyeIcon.classList.add('fa-eye');
-            }
-        }
-    </script>
 </body>
 
 </html>
