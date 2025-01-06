@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TVPSS | Welcome</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.4.2/dist/cdn.min.js" defer></script>
+</head>
+<body class="min-h-screen bg-gradient-to-b from-indigo-100 to-white">
+    <!-- Header -->
+    <header class="bg-white shadow-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-4">
+                <img src="/assets/KPM_Logo.png" alt="KPM Logo" class="h-12 w-auto" />
+                <img src="/assets/TVPSSLogo2.jpg" alt="TVPSS Logo" class="h-12 w-auto" />
+            </div>
+            <nav class="flex items-center space-x-6">
+                <a href="/login/student" class="flex items-center text-blue-600 hover:text-blue-800 font-semibold">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M17 16l4-4-4-4M21 12H9M13 8v8" />
+                    </svg>
+                    Log Masuk Sebagai Pelajar
+                </a>
+                <a href="/login/admin" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-300 flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M17 16l4-4-4-4M21 12H9M13 8v8" />
+                    </svg>
+                    Log Masuk Sebagai Pentadbir
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div>
+                <h1 class="text-4xl md:text-5xl font-bold text-blue-900 leading-tight mb-6">
+                    TV Pusat Sumber Sekolah
+                </h1>
+                <p class="text-lg text-gray-600 mb-8">
+                    Sertai kami dalam mengayakan kandungan media yang menarik dan kreatif.
+                    Platform untuk kongsi, Geharga, dan berkongsi cerita di platform sekolah!
+                </p>
+                <div class="flex space-x-4">
+                    <button onclick="document.getElementById('features-section').scrollIntoView({behavior: 'smooth'})" class="inline-flex items-center px-6 py-3 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 transition duration-300">
+                        Mengenai TVPSS
+                        <svg xmlns="http://www.w3.org/2000/svg" class="ml-2 h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M17 16l4-4-4-4M21 12H9" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <div class="relative h-96 rounded-2xl overflow-hidden shadow-2xl">
+                <img src="/assets/tvpss-pic-1.jpeg" alt="TVPSS Showcase" class="w-full h-full object-cover">
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features-section" class="bg-white py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-bold text-center text-blue-900 mb-12">Kenapa Pilih TVPSS?</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="p-6 bg-white rounded-xl shadow-lg hover:shadow-xl transition duration-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12 text-blue-600 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M17 9l4 4-4 4M7 9l-4 4 4 4" />
+                    </svg>
+                    <h3 class="text-xl font-semibold text-blue-900 mb-2">Streaming Berkualiti</h3>
+                    <p class="text-gray-600">Akses kepada kandungan pendidikan yang berkualiti tinggi</p>
+                </div>
+                <div class="p-6 bg-white rounded-xl shadow-lg hover:shadow-xl transition duration-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12 text-blue-600 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m0 0v-6m0 6v6" />
+                    </svg>
+                    <h3 class="text-xl font-semibold text-blue-900 mb-2">Komuniti Pendidikan</h3>
+                    <p class="text-gray-600">Hubungkan dengan guru dan pelajar di seluruh Malaysia</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-blue-900 text-white py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <p class="mt-2 text-sm text-blue-200">© 2024 TV Pusat Sumber Sekolah. Hak Cipta Terpelihara.</p>
+        </div>
+    </footer>
+</body>
+</html>
