@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update User</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8;
+            margin: 0;
+            padding: 0;
+        }
+
+        iframe {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 300px;
+            height: 100vh;
+            border: none;
+            background-color: #1f2937;
+        }
+
+        .ml-64 {
+            margin-left: 300px;
+        }
+
+        footer {
+            background-color: #ffffff;
+            padding: 16px 32px;
+            border-top: 1px solid #e5e7eb;
+            text-align: center;
+            color: #2a4365;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .header {
+            background-color: #ffffff;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 20px 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .header h3 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #374151;
+        }
+
+        .main-content {
+            padding: 24px;
+            background-color: #f9fafb;
+            min-height: calc(100vh - 100px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .form-container {
+            background: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 800px;
+            padding: 30px;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .form-container:hover {
+            transform: translateY(-5px);
+        }
+
+        .form-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #374151;
+        }
+
+        .input-icon {
+            display: flex;
+            align-items: center;
+            background-color: #f9fafb;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            padding: 10px 16px;
+            transition: all 0.3s ease;
+        }
+
+        .input-icon i {
+            color: #4c6b8f;
+            margin-right: 12px;
+        }
+
+        .input-icon input,
+        .input-icon select {
+            border: none;
+            outline: none;
+            flex: 1;
+            font-size: 1rem;
+            color: #2a4365;
+            background: transparent;
+            padding: 10px 12px;
+        }
+
+        .input-icon:hover {
+            border-color: #4c6b8f;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-cancel {
+            background-color: #e5e7eb;
+            color: #374151;
+            margin-right: 16px;
+        }
+
+        .btn-cancel:hover {
+            background-color: #d1d5db;
+        }
+
+        .btn-add {
+            background-color: #4c6b8f;
+            color: white;
+        }
+
+        .btn-add:hover {
+            background-color: #3b5475;
+        }
+
+        .footer-text {
+            font-size: 1rem;
+            color: #6b7280;
+        }
+
+        .input-icon select:focus,
+        .input-icon input:focus {
+            border-color: #4c6b8f;
+            box-shadow: 0 0 0 2px rgba(72, 126, 242, 0.3);
+        }
+
+        .form-group select,
+        .form-group input {
+            transition: all 0.2s ease;
+        }
+
+    </style>
+</head>
+
+<body>
+    
+
+    <div class="ml-64">
+        <div>
+            <!-- Header -->
+            <div class="header">
+                <h3>Kemaskini Pengguna</h3>
+            </div>
+
+            <!-- Main Content -->
+            <div class="main-content">
+                <!-- Form for Updating User -->
+                <div class="form-container">
+                    <h4 class="form-title">Kemaskini Maklumat Pengguna</h4>
+                    <form>
+                        <!-- Nama Penuh Pengguna -->
+                        <div class="form-group">
+                            <label for="fullName">Nama Penuh Pengguna</label>
+                            <div class="input-icon">
+                                <i class="fas fa-user"></i>
+                                <input type="text" id="fullName" name="fullName" placeholder="Masukkan Nama Penuh" required>
+                            </div>
+                        </div>
+
+                        <!-- Email Pengguna -->
+                        <div class="form-group">
+                            <label for="email">Email Pengguna</label>
+                            <div class="input-icon">
+                                <i class="fas fa-envelope"></i>
+                                <input type="email" id="email" name="email" placeholder="Masukkan Email Pengguna" required>
+                            </div>
+                        </div>
+
+                        <!-- Jenis Pengguna -->
+                        <div class="form-group">
+                            <label for="userType">Jenis Pengguna</label>
+                            <div class="input-icon">
+                                <i class="fas fa-users"></i>
+                                <select id="userType" name="userType" required>
+                                    <option value="">Pilih Jenis Pengguna</option>
+                                    <option value="superadmin">SUPERADMIN</option>
+                                    <option value="stateadmin">STATE ADMIN</option>
+                                    <option value="ppdadmin">PPD ADMIN</option>
+                                    <option value="schooladmin">SCHOOL ADMIN</option>
+                                    <option value="student">STUDENT</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Negeri -->
+                        <div class="form-group">
+                            <label for="negeri">Negeri</label>
+                            <div class="input-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <select id="negeri" name="negeri" required>
+                                    <option value="">Pilih Negeri</option>
+                                    <option value="johor">Johor</option>
+                                    <option value="kedah">Kedah</option>
+                                    <option value="kelantan">Kelantan</option>
+                                    <option value="melaka">Melaka</option>
+                                    <option value="ns">Negeri Sembilan</option>
+                                    <option value="pahang">Pahang</option>
+                                    <option value="penang">Pulau Pinang</option>
+                                    <option value="perak">Perak</option>
+                                    <option value="perlis">Perlis</option>
+                                    <option value="sabah">Sabah</option>
+                                    <option value="sarawak">Sarawak</option>
+                                    <option value="selangor">Selangor</option>
+                                    <option value="terengganu">Terengganu</option>
+                                    <option value="kl">Kuala Lumpur</option>
+                                    <option value="labuan">Labuan</option>
+                                    <option value="putrajaya">Putrajaya</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Daerah -->
+                        <div class="form-group">
+                            <label for="daerah">Daerah</label>
+                            <div class="input-icon">
+                                <i class="fas fa-map"></i>
+                                <select id="daerah" name="daerah" required>
+                                    <option value="">Pilih Daerah</option>
+                                    <option value="example1">Daerah 1</option>
+                                    <option value="example2">Daerah 2</option>
+                                    <option value="example3">Daerah 3</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Sekolah -->
+                        <div class="form-group">
+                            <label for="sekolah">Sekolah</label>
+                            <div class="input-icon">
+                                <i class="fas fa-school"></i>
+                                <select id="sekolah" name="sekolah" required>
+                                    <option value="">Pilih Sekolah</option>
+                                    <option value="school1">Sekolah 1</option>
+                                    <option value="school2">Sekolah 2</option>
+                                    <option value="school3">Sekolah 3</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Buttons -->
+                        <div class="flex justify-end mt-6">
+                            <button type="button" class="btn btn-cancel">Batal</button>
+                            <button type="submit" class="btn btn-add">Kemas Kini Pengguna</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <footer>
+                <p class="footer-text">© 2024 Kementerian Pendidikan Malaysia (KPM)</p>
+            </footer>
+        </div>
+    </div>
+</body>
+
+</html>

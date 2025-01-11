@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TVPSS | Pengurusan Pengguna</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body class="bg-white">
+
+    <!-- Sidebar and Layout -->
+    <div class="ml-64">
+        <!-- Sidebar -->
+        <div class="w-1/6 bg-white shadow-lg">
+            <!-- Sidebar -->
+			<aside id="sidebar" class="fixed top-0 left-0 bg-gray-800 text-gray-200 h-screen flex flex-col z-40 shadow-lg">
+			    <!-- Logo Section -->
+			    <div class="p-6 border-b border-gray-700">
+			        <div class="flex justify-center">
+			            <img src="/assets/TVPSSLogo.jpg" alt="TVPSS Logo" class="w-32 transition-transform duration-300 hover:scale-110">
+			        </div>
+			        <h2 class="mt-4 text-center text-lg font-bold text-gray-100">TVPSS Management</h2>
+			    </div>
+			
+			    <!-- Menu Section -->
+			    <div class="flex-1 overflow-y-auto px-4 py-6">
+			        <h3 class="px-4 text-sm font-semibold text-gray-400 uppercase tracking-wider mb-4">Menu</h3>
+			        <nav class="space-y-2">
+			            <!-- Dashboard Link -->
+			            <a th:href="@{/1-SuperAdmin/dashboardSA}" 
+			               th:classappend="${#httpServletRequest != null and #httpServletRequest.requestURI == '/1-SuperAdmin/dashboardSA' ? 'bg-gray-700 text-white' : ''}"
+			               class="flex items-center px-4 py-3 rounded-lg hover:bg-gray-700 hover:text-white transition-colors duration-200">
+			                <svg class="menu-icon w-6 h-6 mr-3 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+			                    <path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path>
+			                    <path d="M22 12A10 10 0 0 0 12 2v10z"></path>
+			                </svg>
+			                <span>Dashboard</span>
+			            </a>
+			
+			            <!-- Pengurusan Pengguna Link -->
+			            <a th:href="@{/1-SuperAdmin/UserManagement/listUsers}" 
+			               th:classappend="${#httpServletRequest != null and #httpServletRequest.requestURI == '/1-SuperAdmin/listUsers' ? 'bg-gray-700 text-white' : ''}"
+			               class="flex items-center px-4 py-3 rounded-lg hover:bg-gray-700 hover:text-white transition-colors duration-200">
+			                <svg class="menu-icon w-6 h-6 mr-3 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+			                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+			                    <circle cx="9" cy="7" r="4"></circle>
+			                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+			                    <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+			                </svg>
+			                <span>Pengurusan Pengguna</span>
+			            </a>
+			        </nav>
+			    </div>
+			
+			    <!-- Footer Section -->
+			    <div class="p-4 border-t border-gray-700">
+			        <a th:href="@{/logout}" class="flex items-center px-4 py-3 rounded-lg text-red-500 hover:bg-gray-700 hover:text-red-300 transition-colors duration-200">
+			            <svg class="menu-icon w-6 h-6 mr-3 text-red-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+			                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+			                <polyline points="16 17 21 12 16 7"></polyline>
+			                <line x1="21" y1="12" x2="9" y2="12"></line>
+			            </svg>
+			            <span>Log Keluar</span>
+			        </a>
+			    </div>
+			</aside>
+        </div>
+
+        <!-- Main Content -->
+        <div class="w-full md:ml-[120px] p-6">
+            <div class="flex items-center justify-between">
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">Pengurusan Pengguna</h2>
+            </div>
+            
+            <!-- Breadcrumbs -->
+            <div class="flex items-center justify-between mb-6">
+                <nav class="mb-8">
+                    <ol class="flex items-center space-x-2 text-gray-600">
+                        <li>
+                            <a th:href="@{/1-SuperAdmin/UserManagement/listUsers}" class="text-[#4158A6] hover:text-blue-800 font-medium">Pengurusan Pengguna</a>
+                        </li>
+                        <li class="text-gray-500">/</li>
+                        <li class="text-gray-900 font-medium">Semua Pengguna</li>
+                    </ol>
+                </nav>
+                <a th:href="@{/1-SuperAdmin/UserManagement/addUser}" class="inline-block">
+				    <button class="px-6 py-2 bg-[#4B56D2] text-white font-bold rounded-full shadow-lg hover:bg-[#3A47A2] focus:ring-2 focus:ring-blue-300">
+				        Tambah Pengguna Baharu
+				    </button>
+				</a>
+            </div>
+
+            <!-- Users Table -->
+            <div class="max-w-8xl mx-auto p-6 bg-white border border-gray-200 shadow rounded-2xl">
+            	<!-- Filters and Search
+	            <div class="flex items-center mb-4 justify-between">
+	                <input type="text" id="searchQuery" placeholder="Cari Pengguna..." class="w-full max-w-xs px-4 py-2 border rounded-md">
+	                <select id="roleFilter" class="border px-4 py-2 rounded-md">
+	                    <option value="">Semua Jenis</option>
+	                    <option value="0">Super Admin</option>
+	                    <option value="1">State Admin</option>
+	                    <option value="2">PPD Admin</option>
+	                    <option value="3">School Admin</option>
+	                </select>
+	            </div>-->
+	            <div class="flex items-center mb-4 justify-between">
+                    <div class="relative w-full max-w-xs">
+                        <input type="text" placeholder="Cari Pengguna..." id="searchQuery"
+                               class="w-full pl-10 py-3 border border-gray-300 rounded-2xl focus:outline-none focus:ring-2 focus:ring-[#455185]">
+                        <!-- Search Icon -->
+                        <span class="material-icons absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">search</span>
+                    </div>
+
+                    <!-- Dropdown Filters -->
+                    <div class="flex items-center space-x-4">
+                        <!-- Role Filter with Dropdown Icon -->
+                        <div class="relative">
+                            <span class="material-icons absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">filter_list</span>
+                            <select id="roleFilter" class="pl-10 border px-4 py-2 rounded-xl">
+                                <option value="">Semua</option>
+                                <option value="0">Super Admin</option>
+                                <option value="1">State Admin</option>
+                                <option value="2">PPD Admin</option>
+                                <option value="3">School Admin</option>
+                            </select>
+                        </div>
+
+                        <!-- Rows per Page Filter -->
+                        <select id="rowsPerPage" class="border px-4 py-2 rounded-xl">
+                            <option value="5">5</option>
+                            <option value="10">10</option>
+                            <option value="25">25</option>
+                        </select>
+                    </div>
+                </div>
+                <table class="w-full text-left rounded-lg border-collapse">
+                    <thead>
+                        <tr class="bg-white">
+                            <th class="border-b px-4 py-6">Bil</th>
+                            <th class="border-b px-4 py-6">Nama Penuh</th>
+                            <th class="border-b px-4 py-6">Alamat Email</th>
+                            <th class="border-b px-4 py-6 text-center">Negeri</th>
+                            <th class="border-b px-4 py-6 text-center">Jenis Pengguna</th>
+                            <th class="border-b px-4 py-6 text-center">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="usersTableBody">
+                        <tr th:each="user, iterStat : ${users}">
+                            <td th:text="${iterStat.index + 1}" class="border-b px-4 py-6"></td>
+                            <td th:text="${user.name}" class="border-b px-4 py-6"></td>
+                            <td th:text="${user.email}" class="border-b px-4 py-6"></td>
+                            <td th:text="${user.state}" class="border-b px-4 py-6 text-center"></td>
+                            <td th:text="${user.role.name()}" class="border-b px-4 py-6 text-center"></td>
+                            <td class="border-b px-6 py-4 text-center">
+                                <a th:href="@{/1-SuperAdmin/UserManagement/updateUser/{id}(id=${user.id})}">
+                                    <button class="text-gray-400 hover:text-gray-700">
+                                        <span class="material-icons">edit</span>
+                                    </button>
+                                </a>
+                                <a th:href="@{/1-SuperAdmin/UserManagement/deleteUser/{id}(id=${user.id})}" 
+                                   onclick="return confirm('Are you sure?')">
+                                    <button class="text-gray-400 hover:text-gray-700">
+                                        <span class="material-icons">delete</span>
+                                    </button>
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="flex justify-between items-center mt-6">
+                    <button id="prevPage" class="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300">Sebelum</button>
+                    <span class="text-gray-600">Halaman <span id="currentPage">1</span> dari <span id="totalPages">1</span></span>
+                    <button id="nextPage" class="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300">Seterusnya</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let users = [];
+        let currentPage = 1;
+        let rowsPerPage = 5;
+        let searchQuery = '';
+        let selectedRole = '';
+
+        async function fetchUsers() {
+            try {
+                const response = await fetch('/1-SuperAdmin/UserManagement/listUsers'); // Fetch updated list
+                const data = await response.json();
+                users = data;
+                renderUsers();
+            } catch (error) {
+                console.error('Error fetching users:', error);
+            }
+        }
+
+        function renderUsers() {
+            const filteredUsers = users.filter(user =>
+                user.name.toLowerCase().includes(searchQuery.toLowerCase()) &&
+                (selectedRole === '' || user.role == selectedRole)
+            );
+
+            const paginatedUsers = filteredUsers.slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage);
+            const totalPages = Math.ceil(filteredUsers.length / rowsPerPage);
+
+            const tableBody = document.getElementById('usersTableBody');
+            tableBody.innerHTML = '';
+
+            paginatedUsers.forEach((user, index) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td class="border-b px-4 py-6">${(currentPage - 1) * rowsPerPage + index + 1}</td>
+                    <td class="border-b px-4 py-6">${user.name}</td>
+                    <td class="border-b px-4 py-6">${user.email}</td>
+                    <td class="border-b px-4 py-6 text-center">${user.state}</td>
+                    <td class="border-b px-4 py-6 text-center">${getRoleLabel(user.role)}</td>
+                    <td class="border-b px-6 py-4 text-center">
+                        <a href="/1-SuperAdmin/UserManagement/updateUser/${user.id}">
+                            <button class="text-gray-400 hover:text-gray-600">
+                                <span class="material-icons">edit</span>
+                            </button>
+                        </a>
+                        <a href="/1-SuperAdmin/UserManagement/deleteUser/${user.id}" onclick="return confirm('Are you sure?')">
+                            <button class="text-gray-400 hover:text-gray-600">
+                                <span class="material-icons">delete</span>
+                            </button>
+                        </a>
+                    </td>
+                `;
+                tableBody.appendChild(row);
+            });
+
+            document.getElementById('totalPages').innerText = totalPages;
+            document.getElementById('currentPage').innerText = currentPage;
+            document.getElementById('prevPage').disabled = currentPage === 1;
+            document.getElementById('nextPage').disabled = currentPage === totalPages;
+        }
+
+        function getRoleLabel(role) {
+            switch (role) {
+                case 0: return 'Super Admin';
+                case 1: return 'State Admin';
+                case 2: return 'PPD Admin';
+                case 3: return 'School Admin';
+                default: return 'Unknown';
+            }
+        }
+
+        document.getElementById('searchQuery').addEventListener('input', e => {
+            searchQuery = e.target.value;
+            renderUsers();
+        });
+
+        document.getElementById('roleFilter').addEventListener('change', e => {
+            selectedRole = e.target.value;
+            renderUsers();
+        });
+
+        document.getElementById('prevPage').addEventListener('click', () => {
+            if (currentPage > 1) {
+                currentPage--;
+                renderUsers();
+            }
+        });
+
+        document.getElementById('nextPage').addEventListener('click', () => {
+            const totalPages = Math.ceil(users.length / rowsPerPage);
+            if (currentPage < totalPages) {
+                currentPage++;
+                renderUsers();
+            }
+        });
+
+        fetchUsers();
+    </script>
+</body>
+</html>

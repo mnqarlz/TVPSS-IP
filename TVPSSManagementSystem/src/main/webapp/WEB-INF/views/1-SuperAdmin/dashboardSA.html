@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TVPSS | Dashboard</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f4f7fc;
+            margin: 0;
+            padding: 0;
+        }
+
+        iframe {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 400px;
+            height: 100vh;
+            border: none;
+            background-color: #1f2937;
+        }
+
+        .ml-64 {
+            margin-left: 300px;
+        }
+
+        footer {
+            background-color: #ffffff;
+            padding: 16px 32px;
+            border-top: 1px solid #e5e7eb;
+            text-align: center;
+            color: #2a4365;
+            width: 100%;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+
+        .header {
+            background-color: #ffffff;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 16px 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .header h2 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: #374151;
+        }
+
+        .header .controls {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .header .controls select,
+        .header .controls input {
+            padding: 10px 16px;
+            border-radius: 8px;
+            border: 1px solid #d1d5db;
+            background-color: #f9fafb;
+            transition: all 0.2s ease-in-out;
+        }
+
+        .header .controls button {
+            padding: 10px 20px;
+            border-radius: 8px;
+            background-color: #28559c;
+            color: white;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: background-color 0.2s ease-in-out;
+        }
+
+        .header .controls button:hover {
+            background-color: #2a4365;
+        }
+
+        .main-content {
+            padding: 24px;
+            background-color: #f9fafb;
+            min-height: calc(100vh - 100px);
+        }
+
+        .stat-card {
+            transition: transform 0.2s;
+        }
+
+        .stat-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .icon-wrapper {
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+        }
+
+        .chart-container {
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .chart-container:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        .chart-title {
+            position: relative;
+            display: inline-block;
+        }
+
+        .chart-title::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 3px;
+            background: #1E3A8A;
+            border-radius: 2px;
+        }
+
+        .aktiviti-terkini {
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .aktiviti-terkini:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Sidebar -->
+	<aside id="sidebar" class="fixed top-0 left-0 bg-gray-800 text-gray-200 h-screen flex flex-col z-40 shadow-lg">
+	    <!-- Logo Section -->
+	    <div class="p-6 border-b border-gray-700">
+	        <div class="flex justify-center">
+	            <img src="/assets/TVPSSLogo.jpg" alt="TVPSS Logo" class="w-32 transition-transform duration-300 hover:scale-110">
+	        </div>
+	        <h2 class="mt-4 text-center text-lg font-bold text-gray-100">TVPSS Management</h2>
+	    </div>
+	
+	    <!-- Menu Section -->
+	    <div class="flex-1 overflow-y-auto px-4 py-6">
+	        <h3 class="px-4 text-sm font-semibold text-gray-400 uppercase tracking-wider mb-4">Menu</h3>
+	        <nav class="space-y-2">
+	            <!-- Dashboard Link -->
+	            <a th:href="@{/1-SuperAdmin/dashboardSA}" 
+	               th:classappend="${#httpServletRequest != null and #httpServletRequest.requestURI == '/1-SuperAdmin/dashboardSA' ? 'bg-gray-700 text-white' : ''}"
+	               class="flex items-center px-4 py-3 rounded-lg hover:bg-gray-700 hover:text-white transition-colors duration-200">
+	                <svg class="menu-icon w-6 h-6 mr-3 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+	                    <path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path>
+	                    <path d="M22 12A10 10 0 0 0 12 2v10z"></path>
+	                </svg>
+	                <span>Dashboard</span>
+	            </a>
+	
+	            <!-- Pengurusan Pengguna Link -->
+	            <a th:href="@{/1-SuperAdmin/UserManagement/listUsers}" 
+	               th:classappend="${#httpServletRequest != null and #httpServletRequest.requestURI == '/1-SuperAdmin/listUsers' ? 'bg-gray-700 text-white' : ''}"
+	               class="flex items-center px-4 py-3 rounded-lg hover:bg-gray-700 hover:text-white transition-colors duration-200">
+	                <svg class="menu-icon w-6 h-6 mr-3 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+	                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+	                    <circle cx="9" cy="7" r="4"></circle>
+	                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+	                    <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+	                </svg>
+	                <span>Pengurusan Pengguna</span>
+	            </a>
+	        </nav>
+	    </div>
+	
+	    <!-- Footer Section -->
+	    <div class="p-4 border-t border-gray-700">
+	        <a th:href="@{/logout}" class="flex items-center px-4 py-3 rounded-lg text-red-500 hover:bg-gray-700 hover:text-red-300 transition-colors duration-200">
+	            <svg class="menu-icon w-6 h-6 mr-3 text-red-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+	                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+	                <polyline points="16 17 21 12 16 7"></polyline>
+	                <line x1="21" y1="12" x2="9" y2="12"></line>
+	            </svg>
+	            <span>Log Keluar</span>
+	        </a>
+	    </div>
+	</aside>
+
+    <div class="ml-64">
+        <div>
+            <!-- Header -->
+            <div class="header">
+                <h2 class="text-2xl font-bold text-blue-900">Dashboard</h2>
+                <div class="controls">
+                    <!-- Dropdown -->
+                    <div>
+                        <div class="select-wrapper">
+                            <select id="timeframe" class="custom-select w-40" th:onchange="location.href='?timeframe=' + this.value">
+                                <option value="Harian" th:selected="${selectedTimeframe == 'Harian'}">Harian</option>
+                                <option value="Mingguan" th:selected="${selectedTimeframe == 'Mingguan'}">Mingguan</option>
+                                <option value="Bulanan" th:selected="${selectedTimeframe == 'Bulanan'}">Bulanan</option>
+                            </select>
+                        </div>
+                    </div>
+                    <!-- Date -->
+                    <div>
+                        <input type="date" id="date" th:value="${selectedDate}" class="custom-date w-48">
+                    </div>
+
+                    <!-- Export Button -->
+                    <div>
+                        <button class="export-button flex items-center space-x-2">
+                            <i class="fas fa-download text-sm"></i>
+                            <span>Export</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="main-content">
+                <!-- Stats Cards -->
+                <div class="grid grid-cols-3 gap-4 mb-8">
+                    <div class="stat-card bg-white border border-gray-300 rounded-2xl p-6 shadow-md">
+                        <div class="icon-wrapper bg-purple-100">
+                            <i class="fas fa-users text-xl text-purple-600"></i>
+                        </div>
+                        <h3 class="text-gray-600 font-medium mb-2">Bilangan State Admin</h3>
+                        <p class="text-3xl font-bold text-gray-800" th:text="${stateAdminCount}">0</p>
+                    </div>
+
+                    <div class="stat-card bg-white border border-gray-300 rounded-2xl p-6 shadow-md">
+                        <div class="icon-wrapper bg-green-100">
+                            <i class="fas fa-user-shield text-xl text-green-600"></i>
+                        </div>
+                        <h3 class="text-gray-600 font-medium mb-2">Bilangan PPD Admin</h3>
+                        <p class="text-3xl font-bold text-gray-800" th:text="${ppdAdminCount}">0</p>
+                    </div>
+
+                    <div class="stat-card bg-white border border-gray-300 rounded-2xl p-6 shadow-md">
+                        <div class="icon-wrapper bg-blue-100">
+                            <i class="fas fa-user-shield text-xl text-blue-600"></i>
+                        </div>
+                        <h3 class="text-gray-600 font-medium mb-2">Bilangan Sekolah Admin</h3>
+                        <p class="text-3xl font-bold text-gray-800" th:text="${schoolAdminCount}">0</p>
+                    </div>
+                </div>
+
+                <!-- Charts -->
+                <div class="grid grid-cols-2 gap-8 gap-y-8 mb-8">
+                    <!-- Bar Chart -->
+                    <div class="chart-container bg-white border border-gray-300 p-8 rounded-2xl shadow-lg">
+                        <h3 class="chart-title text-xl text-center text-blue-900 font-bold mb-8">
+                            Bilangan Pengguna Mengikut Jenis
+                        </h3>
+                        <div class="h-80 relative">
+                            <canvas id="barChart" th:data-labels="${chartLabels}" th:data-values="${chartValues}"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Pie Chart -->
+                    <div class="chart-container bg-white border border-gray-300 p-8 rounded-2xl shadow-lg">
+                        <h3 class="chart-title text-xl text-center text-blue-900 font-bold mb-8">
+                            Peratusan Pengguna Mengikut Jenis
+                        </h3>
+                        <div class="h-80 relative">
+                            <canvas id="pieChart" th:data-labels="${chartLabels}" th:data-values="${chartValues}"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Activity Log -->
+                <div class="bg-white mt-4 mb-4 p-6 rounded-2xl border border-gray-300 w-full shadow-md">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">Aktiviti Terkini</h3>
+                    <div class="overflow-auto max-h-96">
+                        <div th:each="activity : ${activities}" class="flex items-start justify-between mb-4 p-3 bg-gray-50 rounded-lg">
+                            <div class="flex items-center">
+                                <span class="icon-wrapper bg-blue-100 p-3 rounded-full">
+                                    <i th:class="'fas fa-' + ${activity.icon}"></i>
+                                </span>
+                                <div class="ml-3">
+                                    <p class="text-gray-700 text-sm font-semibold" th:text="${activity.description}"></p>
+                                    <p class="text-gray-500 text-xs" th:text="${activity.timestamp}"></p>
+                                </div>
+                            </div>
+                            <div class="flex items-center">
+                                <p class="text-sm" th:class="${activity.status == 'success' ? 'text-green-600' : 'text-red-600'}" th:text="${activity.status}"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <footer>
+                <p>&copy; 2024 Kementerian Pendidikan Malaysia (KPM)</p>
+            </footer>
+        </div>
+    </div>
+
+    <script>
+        const barChart = document.getElementById('barChart');
+        const pieChart = document.getElementById('pieChart');
+        const barData = {
+            labels: JSON.parse(barChart.getAttribute('data-labels')),
+            datasets: [{
+                data: JSON.parse(barChart.getAttribute('data-values')),
+                backgroundColor: ['rgba(59, 130, 246, 0.8)', 'rgba(99, 102, 241, 0.8)', 'rgba(147, 51, 234, 0.8)']
+            }]
+        };
+        const doughnutData = {
+            labels: JSON.parse(pieChart.getAttribute('data-labels')),
+            datasets: [{
+                data: JSON.parse(pieChart.getAttribute('data-values')),
+                backgroundColor: ['rgba(59, 130, 246, 0.8)', 'rgba(99, 102, 241, 0.8)', 'rgba(147, 51, 234, 0.8)']
+            }]
+        };
+        new Chart(barChart, { type: 'bar', data: barData });
+        new Chart(pieChart, { type: 'doughnut', data: doughnutData });
+    </script>
+</body>
+
+</html>
