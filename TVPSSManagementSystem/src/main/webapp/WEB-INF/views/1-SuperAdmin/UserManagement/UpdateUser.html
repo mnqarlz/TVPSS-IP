@@ -4,24 +4,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Update User</title>
+    <title>TVPSS | Update User</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             const districts = {
-                "Johor": ["Johor Bahru", "Muar", "Kluang", "Segamat", "Mersing", "Kota Tinggi", "Batu Pahat", "Pontian", "Pasir Gudang", "Tangkak", "Kulaijaya"],
-                "Pahang": ["Kuantan", "Temerloh", "Bera", "Pekan", "Rompin", "Maran", "Jerantut", "Bentong"],
-                "Selangor": ["Petaling", "Hulu Langat", "Sepang", "Klang", "Gombak", "Kuala Selangor", "Sabak Bernam", "Selayang"],
-                "Negeri Sembilan": ["Seremban", "Port Dickson", "Rembau", "Jelebu", "Tampin", "Gemenceh"],
-                "Perak": ["Ipoh", "Kuala Kangsar", "Taiping", "Teluk Intan", "Sitiawan", "Parit Buntar", "Tanjung Malim", "Kampar"],
-                "Kedah": ["Alor Setar", "Sungai Petani", "Kuala Kedah", "Kulim", "Baling", "Langkawi", "Pokok Sena", "Kubang Pasu"],
-                "Pulau Pinang": ["Georgetown", "Bukit Mertajam", "Nibong Tebal", "Balik Pulau"],
-                "Perlis": ["Kangar", "Arau"],
-                "Kelantan": ["Kota Bharu", "Tumpat", "Pasir Mas", "Machang", "Tanah Merah", "Gua Musang", "Kuala Krai"],
-                "Terengganu": ["Kuala Terengganu", "Dungun", "Kemaman", "Besut", "Hulu Terengganu", "Marang"],
-                "Sabah": ["Kota Kinabalu", "Sandakan", "Tawau", "Keningau", "Beaufort", "Lahad Datu", "Semporna", "Ranau", "Papar"],
-                "Sarawak": ["Kuching", "Sibu", "Miri", "Bintulu", "Sri Aman", "Mukah", "Betong", "Limbang"],
+                Johor: ["Johor Bahru", "Muar", "Kluang", "Segamat", "Mersing", "Kota Tinggi", "Batu Pahat", "Pontian", "Pasir Gudang", "Tangkak", "Kulaijaya"],
+                Melaka: ["Melaka Tengah", "Alor Gajah", "Jasin"],
+                Pahang: ["Kuantan", "Temerloh", "Bera", "Pekan", "Rompin", "Jerantut", "Bentong", "Maran", "Lipis", "Raub", "Cameron Highlands"],
+                Selangor: ["Petaling", "Hulu Langat", "Sepang", "Klang", "Gombak", "Kuala Selangor", "Sabak Bernam", "Selayang", "Shah Alam", "Subang Jaya"],
+                "Negeri Sembilan": ["Seremban", "Port Dickson", "Rembau", "Jelebu", "Tampin", "Gemenceh", "Kuala Pilah", "Jempol", "Bahau"],
+                Perak: ["Ipoh", "Kuala Kangsar", "Taiping", "Teluk Intan", "Sitiawan", "Parit Buntar", "Tanjung Malim", "Kampar", "Manjung", "Batu Gajah"],
+                Kedah: ["Alor Setar", "Sungai Petani", "Kuala Kedah", "Kulim", "Baling", "Langkawi", "Pokok Sena", "Kubang Pasu", "Pendang", "Yan", "Bandar Baharu"],
+                "Pulau Pinang": ["George Town", "Bukit Mertajam", "Nibong Tebal", "Balik Pulau", "Seberang Perai Utara", "Seberang Perai Tengah", "Seberang Perai Selatan"],
+                Perlis: ["Kangar", "Arau", "Padang Besar"],
+                Kelantan: ["Kota Bharu", "Tumpat", "Pasir Mas", "Machang", "Tanah Merah", "Gua Musang", "Kuala Krai", "Bachok", "Jeli", "Pasir Puteh"],
+                Terengganu: ["Kuala Terengganu", "Dungun", "Kemaman", "Besut", "Hulu Terengganu", "Marang", "Setiu"],
+                Sabah: ["Kota Kinabalu", "Sandakan", "Tawau", "Keningau", "Beaufort", "Lahad Datu", "Semporna", "Ranau", "Papar", "Tuaran", "Penampang", "Kudat"],
+                Sarawak: ["Kuching", "Sibu", "Miri", "Bintulu", "Sri Aman", "Mukah", "Betong", "Limbang", "Sarikei", "Kapit", "Lawas", "Samarahan"],
+                "Wilayah Persekutuan Kuala Lumpur": ["Kuala Lumpur"],
+                "Wilayah Persekutuan Labuan": ["Labuan"],
+                "Wilayah Persekutuan Putrajaya": ["Putrajaya"],
             };
 
             const stateSelect = document.getElementById("state");
@@ -290,79 +294,81 @@
             <div class="main-content">
                 <div class="form-container">
                     <h4 class="form-title">Kemaskini Maklumat Pengguna</h4>
-                    <form th:action="@{/1-SuperAdmin/UserManagement/updateUser}" method="post">
-                        <input type="hidden" th:value="${user.id}" name="id" />
-
-                        <div class="form-group">
-                            <label for="name">Nama Penuh Pengguna</label>
-                            <div class="input-icon">
-                                <i class="fas fa-user"></i>
-                                <input type="text" id="name" name="name" th:value="${user.name}" required />
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="email">Email Pengguna</label>
-                            <div class="input-icon">
-                                <i class="fas fa-envelope"></i>
-                                <input type="email" id="email" name="email" th:value="${user.email}" required />
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="password">Kata Laluan (Biarkan kosong untuk tidak menukar)</label>
-                            <div class="input-icon">
-                                <i class="fas fa-lock"></i>
-                                <input type="password" id="password" name="password"
-                                    placeholder="Masukkan Kata Laluan Baru" />
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="role">Jenis Pengguna</label>
-                            <div class="input-icon">
-                                <i class="fas fa-users"></i>
-                                <select id="role" name="role" required>
-                                    <option th:selected="${user.role == 'SUPERADMIN'}" value="SUPERADMIN">SUPER ADMIN
-                                    </option>
-                                    <option th:selected="${user.role == 'STATEADMIN'}" value="STATEADMIN">STATE ADMIN
-                                    </option>
-                                    <option th:selected="${user.role == 'PPDADMIN'}" value="PPDADMIN">PPD ADMIN</option>
-                                    <option th:selected="${user.role == 'SCHOOLADMIN'}" value="SCHOOLADMIN">SCHOOL ADMIN
-                                    </option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <!-- Negeri -->
-                        <div class="form-group">
-                            <label for="state">Negeri</label>
-                            <div class="input-icon">
-                                <i class="fas fa-map-marker-alt"></i>
-                                <select id="state" name="state" required>
-                                    <option value="">Pilih Negeri</option>
-                                    <option th:each="state : ${states}" th:value="${state}" th:text="${state}"
-                                        th:selected="${state == user.state}"></option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <!-- Daerah -->
-                        <div class="form-group">
-                            <label for="district">Daerah</label>
-                            <div class="input-icon">
-                                <i class="fas fa-map"></i>
-                                <select id="district" name="district" required>
-                                    <option value="">Pilih Daerah</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="flex justify-end mt-6">
-                            <a th:href="@{/1-SuperAdmin/UserManagement/listUsers}" class="btn btn-cancel">Batal</a>
-                            <button type="submit" class="btn btn-add">Kemas Kini Pengguna</button>
-                        </div>
-                    </form>
+                    <form th:action="@{/1-SuperAdmin/UserManagement/updateSaveUser}" method="post">
+					    <!-- User ID (Hidden Field) -->
+					    <input type="hidden" th:value="${user.id}" name="id" />
+					
+					    <!-- Name -->
+					    <div class="form-group">
+					        <label for="name">Nama Penuh Pengguna</label>
+					        <div class="input-icon">
+					            <i class="fas fa-user"></i>
+					            <input type="text" id="name" name="name" th:value="${user.name}" required />
+					        </div>
+					    </div>
+					
+					    <!-- Email -->
+					    <div class="form-group">
+					        <label for="email">Email Pengguna</label>
+					        <div class="input-icon">
+					            <i class="fas fa-envelope"></i>
+					            <input type="email" id="email" name="email" th:value="${user.email}" required />
+					        </div>
+					    </div>
+					
+					    <!-- Password -->
+					    <div class="form-group">
+					        <label for="password">Kata Laluan (Biarkan kosong untuk tidak menukar)</label>
+					        <div class="input-icon">
+					            <i class="fas fa-lock"></i>
+					            <input type="password" id="password" name="password" placeholder="Masukkan Kata Laluan Baru" />
+					        </div>
+					    </div>
+					
+					    <!-- Role -->
+					    <div class="form-group">
+						    <label for="role">Jenis Pengguna</label>
+						    <div class="input-icon">
+						        <i class="fas fa-users"></i>
+						        <select id="role" name="role" required>
+						            <option value="SUPER_ADMIN" th:selected="${user.role.name() == 'SUPER_ADMIN'}">SUPER ADMIN</option>
+						            <option value="STATE_ADMIN" th:selected="${user.role.name() == 'STATE_ADMIN'}">STATE ADMIN</option>
+						            <option value="PPD_ADMIN" th:selected="${user.role.name() == 'PPD_ADMIN'}">PPD ADMIN</option>
+						            <option value="SCHOOL_ADMIN" th:selected="${user.role.name() == 'SCHOOL_ADMIN'}">SCHOOL ADMIN</option>
+						        </select>
+						    </div>
+						</div>
+					
+					    <!-- State -->
+					    <div class="form-group">
+					        <label for="state">Negeri</label>
+					        <div class="input-icon">
+					            <i class="fas fa-map-marker-alt"></i>
+					            <select id="state" name="state" required>
+					                <option value="">Pilih Negeri</option>
+					                <option th:each="state : ${states}" th:value="${state}" th:text="${state}" th:selected="${state == user.state}"></option>
+					            </select>
+					        </div>
+					    </div>
+					
+					    <!-- District -->
+					    <div class="form-group">
+					        <label for="district">Daerah</label>
+					        <div class="input-icon">
+					            <i class="fas fa-map"></i>
+					            <select id="district" name="district" required>
+					                <option value="">Pilih Daerah</option>
+					                <option th:each="district : ${districts}" th:value="${district}" th:text="${district}" th:selected="${district == user.district}"></option>
+					            </select>
+					        </div>
+					    </div>
+					
+					    <!-- Buttons -->
+					    <div class="flex justify-end mt-6">
+					        <a th:href="@{/1-SuperAdmin/UserManagement/listUsers}" class="btn btn-cancel">Batal</a>
+					        <button type="submit" class="btn btn-add">Kemas Kini Pengguna</button>
+					    </div>
+					</form>
                 </div>
             </div>
 
@@ -373,51 +379,5 @@
         </div>
     </div>
 </body>
-
-<script>
-    // Predefined districts for each state
-    const districts = {
-        Johor: ["Johor Bahru", "Muar", "Kluang", "Segamat", "Mersing", "Kota Tinggi", "Batu Pahat", "Pontian", "Pasir Gudang", "Tangkak", "Kulaijaya"],
-        Melaka: ["Melaka Tengah", "Alor Gajah", "Jasin"],
-        Pahang: ["Kuantan", "Temerloh", "Pekan", "Rompin", "Jerantut"],
-        Selangor: ["Petaling", "Hulu Langat", "Klang", "Gombak"],
-        "Negeri Sembilan": ["Seremban", "Port Dickson", "Rembau", "Jelebu"]
-    };
-
-    function populateDistricts(state) {
-        const districtDropdown = document.getElementById("district");
-        districtDropdown.innerHTML = '<option value="">Pilih Daerah</option>'; // Reset the districts
-
-        if (districts[state]) {
-            districts[state].forEach(district => {
-                const option = document.createElement("option");
-                option.value = district;
-                option.text = district;
-                districtDropdown.appendChild(option);
-            });
-
-            // Pre-select the district if it's already selected
-            const selectedDistrict = districtDropdown.getAttribute("data-selected-district");
-            if (selectedDistrict) {
-                districtDropdown.value = selectedDistrict;
-            }
-        }
-    }
-
-    // Automatically populate districts when the page loads
-    document.addEventListener("DOMContentLoaded", function () {
-        const stateDropdown = document.getElementById("state");
-        const selectedState = stateDropdown.value;
-
-        if (selectedState) {
-            populateDistricts(selectedState);
-        }
-
-        // Update districts when the state changes
-        stateDropdown.addEventListener("change", function () {
-            populateDistricts(this.value);
-        });
-    });
-</script>
 
 </html>
