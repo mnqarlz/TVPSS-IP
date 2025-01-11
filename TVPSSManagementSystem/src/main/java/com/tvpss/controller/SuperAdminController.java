@@ -72,19 +72,26 @@ public class SuperAdminController {
         return "1-SuperAdmin/UserManagement/addUser";
     }
 
-    @PostMapping("/UserManagement/addUser")
-    public String saveUser(@ModelAttribute("user") User user,
-                           Model model) {
-        userService.saveUser(user);
-        return "redirect:/1-SuperAdmin/UserManagement/listUsers";
+    @PostMapping("/UserManagement/saveUser")
+    public String saveUser(@ModelAttribute("user") User user, Model model) {
+        try {
+            userService.saveUser(user); // Ensure this method exists in your UserService
+            return "redirect:/1-SuperAdmin/UserManagement/listUsers";
+        } catch (Exception e) {
+            model.addAttribute("error", "An error occurred while saving the user. Please try again.");
+            model.addAttribute("user", user);
+            model.addAttribute("roles", Role.values());
+            return "1-SuperAdmin/UserManagement/addUser";
+        }
     }
 
-    // Update User Route
     @GetMapping("/UserManagement/updateUser/{id}")
-    public String updateUserForm(@PathVariable Long id, Model model) {
+    public String showUpdateUserForm(@PathVariable Long id, Model model) {
         User user = userService.findUserById(id);
+        if (user == null) {
+            throw new IllegalArgumentException("Invalid user Id: " + id);
+        }
         model.addAttribute("user", user);
-        model.addAttribute("roles", Role.values());
         return "1-SuperAdmin/UserManagement/UpdateUser";
     }
 

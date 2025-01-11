@@ -62,10 +62,18 @@ public class UserService implements UserDetailsService {
 
     public void updateUser(User user) {
         if (user.getId() != null) {
-            user.setPassword(encodePassword(user.getPassword()));
+            // Check if the password is provided; only encode if it's not blank
+            if (user.getPassword() != null && !user.getPassword().isEmpty()) {
+                user.setPassword(encodePassword(user.getPassword()));
+            } else {
+                // Preserve the existing password if not updated
+                User existingUser = findUserById(user.getId());
+                user.setPassword(existingUser.getPassword());
+            }
             userDao.save(user);
         }
     }
+
 
     public void deleteUserById(Long id) {
         userDao.deleteById(id);

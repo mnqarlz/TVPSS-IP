@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
@@ -7,7 +7,49 @@
     <title>Update User</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const districts = {
+                "Johor": ["Johor Bahru", "Muar", "Kluang", "Segamat", "Mersing", "Kota Tinggi", "Batu Pahat", "Pontian", "Pasir Gudang", "Tangkak", "Kulaijaya"],
+                "Pahang": ["Kuantan", "Temerloh", "Bera", "Pekan", "Rompin", "Maran", "Jerantut", "Bentong"],
+                "Selangor": ["Petaling", "Hulu Langat", "Sepang", "Klang", "Gombak", "Kuala Selangor", "Sabak Bernam", "Selayang"],
+                "Negeri Sembilan": ["Seremban", "Port Dickson", "Rembau", "Jelebu", "Tampin", "Gemenceh"],
+                "Perak": ["Ipoh", "Kuala Kangsar", "Taiping", "Teluk Intan", "Sitiawan", "Parit Buntar", "Tanjung Malim", "Kampar"],
+                "Kedah": ["Alor Setar", "Sungai Petani", "Kuala Kedah", "Kulim", "Baling", "Langkawi", "Pokok Sena", "Kubang Pasu"],
+                "Pulau Pinang": ["Georgetown", "Bukit Mertajam", "Nibong Tebal", "Balik Pulau"],
+                "Perlis": ["Kangar", "Arau"],
+                "Kelantan": ["Kota Bharu", "Tumpat", "Pasir Mas", "Machang", "Tanah Merah", "Gua Musang", "Kuala Krai"],
+                "Terengganu": ["Kuala Terengganu", "Dungun", "Kemaman", "Besut", "Hulu Terengganu", "Marang"],
+                "Sabah": ["Kota Kinabalu", "Sandakan", "Tawau", "Keningau", "Beaufort", "Lahad Datu", "Semporna", "Ranau", "Papar"],
+                "Sarawak": ["Kuching", "Sibu", "Miri", "Bintulu", "Sri Aman", "Mukah", "Betong", "Limbang"],
+            };
+
+            const stateSelect = document.getElementById("state");
+            const districtSelect = document.getElementById("district");
+
+            const selectedState = stateSelect.getAttribute("data-selected-state");
+            const selectedDistrict = districtSelect.getAttribute("data-selected-district");
+
+            function populateDistricts(state) {
+                districtSelect.innerHTML = '<option value="">Pilih Daerah</option>';
+                if (districts[state]) {
+                    districts[state].forEach(district => {
+                        const option = document.createElement("option");
+                        option.value = district;
+                        option.textContent = district;
+                        if (district === selectedDistrict) option.selected = true;
+                        districtSelect.appendChild(option);
+                    });
+                }
+            }
+
+            if (selectedState) populateDistricts(selectedState);
+
+            stateSelect.addEventListener("change", function () {
+                populateDistricts(this.value);
+            });
+        });
+    </script>
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -174,12 +216,68 @@
         .form-group input {
             transition: all 0.2s ease;
         }
-
     </style>
 </head>
 
 <body>
-    
+
+    <!-- Sidebar -->
+    <aside id="sidebar" class="fixed top-0 left-0 bg-gray-800 text-gray-200 h-screen flex flex-col z-40 shadow-lg">
+        <!-- Logo Section -->
+        <div class="p-6 border-b border-gray-700">
+            <div class="flex justify-center">
+                <img src="/assets/TVPSSLogo.jpg" alt="TVPSS Logo"
+                    class="w-32 transition-transform duration-300 hover:scale-110">
+            </div>
+            <h2 class="mt-4 text-center text-lg font-bold text-gray-100">TVPSS Management</h2>
+        </div>
+
+        <!-- Menu Section -->
+        <div class="flex-1 overflow-y-auto px-4 py-6">
+            <h3 class="px-4 text-sm font-semibold text-gray-400 uppercase tracking-wider mb-4">Menu</h3>
+            <nav class="space-y-2">
+                <!-- Dashboard Link -->
+                <a th:href="@{/1-SuperAdmin/dashboardSA}"
+                    th:classappend="${#httpServletRequest != null and #httpServletRequest.requestURI == '/1-SuperAdmin/dashboardSA' ? 'bg-gray-700 text-white' : ''}"
+                    class="flex items-center px-4 py-3 rounded-lg hover:bg-gray-700 hover:text-white transition-colors duration-200">
+                    <svg class="menu-icon w-6 h-6 mr-3 text-gray-400" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path>
+                        <path d="M22 12A10 10 0 0 0 12 2v10z"></path>
+                    </svg>
+                    <span>Dashboard</span>
+                </a>
+
+                <!-- Pengurusan Pengguna Link -->
+                <a th:href="@{/1-SuperAdmin/UserManagement/listUsers}"
+                    th:classappend="${#httpServletRequest != null and #httpServletRequest.requestURI == '/1-SuperAdmin/listUsers' ? 'bg-gray-700 text-white' : ''}"
+                    class="flex items-center px-4 py-3 rounded-lg hover:bg-gray-700 hover:text-white transition-colors duration-200">
+                    <svg class="menu-icon w-6 h-6 mr-3 text-gray-400" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="9" cy="7" r="4"></circle>
+                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                    </svg>
+                    <span>Pengurusan Pengguna</span>
+                </a>
+            </nav>
+        </div>
+
+        <!-- Footer Section -->
+        <div class="p-4 border-t border-gray-700">
+            <a th:href="@{/logout}"
+                class="flex items-center px-4 py-3 rounded-lg text-red-500 hover:bg-gray-700 hover:text-red-300 transition-colors duration-200">
+                <svg class="menu-icon w-6 h-6 mr-3 text-red-500" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                    <polyline points="16 17 21 12 16 7"></polyline>
+                    <line x1="21" y1="12" x2="9" y2="12"></line>
+                </svg>
+                <span>Log Keluar</span>
+            </a>
+        </div>
+    </aside>
 
     <div class="ml-64">
         <div>
@@ -190,102 +288,78 @@
 
             <!-- Main Content -->
             <div class="main-content">
-                <!-- Form for Updating User -->
                 <div class="form-container">
                     <h4 class="form-title">Kemaskini Maklumat Pengguna</h4>
-                    <form>
-                        <!-- Nama Penuh Pengguna -->
+                    <form th:action="@{/1-SuperAdmin/UserManagement/updateUser}" method="post">
+                        <input type="hidden" th:value="${user.id}" name="id" />
+
                         <div class="form-group">
-                            <label for="fullName">Nama Penuh Pengguna</label>
+                            <label for="name">Nama Penuh Pengguna</label>
                             <div class="input-icon">
                                 <i class="fas fa-user"></i>
-                                <input type="text" id="fullName" name="fullName" placeholder="Masukkan Nama Penuh" required>
+                                <input type="text" id="name" name="name" th:value="${user.name}" required />
                             </div>
                         </div>
 
-                        <!-- Email Pengguna -->
                         <div class="form-group">
                             <label for="email">Email Pengguna</label>
                             <div class="input-icon">
                                 <i class="fas fa-envelope"></i>
-                                <input type="email" id="email" name="email" placeholder="Masukkan Email Pengguna" required>
+                                <input type="email" id="email" name="email" th:value="${user.email}" required />
                             </div>
                         </div>
 
-                        <!-- Jenis Pengguna -->
                         <div class="form-group">
-                            <label for="userType">Jenis Pengguna</label>
+                            <label for="password">Kata Laluan (Biarkan kosong untuk tidak menukar)</label>
+                            <div class="input-icon">
+                                <i class="fas fa-lock"></i>
+                                <input type="password" id="password" name="password"
+                                    placeholder="Masukkan Kata Laluan Baru" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="role">Jenis Pengguna</label>
                             <div class="input-icon">
                                 <i class="fas fa-users"></i>
-                                <select id="userType" name="userType" required>
-                                    <option value="">Pilih Jenis Pengguna</option>
-                                    <option value="superadmin">SUPERADMIN</option>
-                                    <option value="stateadmin">STATE ADMIN</option>
-                                    <option value="ppdadmin">PPD ADMIN</option>
-                                    <option value="schooladmin">SCHOOL ADMIN</option>
-                                    <option value="student">STUDENT</option>
+                                <select id="role" name="role" required>
+                                    <option th:selected="${user.role == 'SUPERADMIN'}" value="SUPERADMIN">SUPER ADMIN
+                                    </option>
+                                    <option th:selected="${user.role == 'STATEADMIN'}" value="STATEADMIN">STATE ADMIN
+                                    </option>
+                                    <option th:selected="${user.role == 'PPDADMIN'}" value="PPDADMIN">PPD ADMIN</option>
+                                    <option th:selected="${user.role == 'SCHOOLADMIN'}" value="SCHOOLADMIN">SCHOOL ADMIN
+                                    </option>
                                 </select>
                             </div>
                         </div>
 
                         <!-- Negeri -->
                         <div class="form-group">
-                            <label for="negeri">Negeri</label>
+                            <label for="state">Negeri</label>
                             <div class="input-icon">
                                 <i class="fas fa-map-marker-alt"></i>
-                                <select id="negeri" name="negeri" required>
+                                <select id="state" name="state" required>
                                     <option value="">Pilih Negeri</option>
-                                    <option value="johor">Johor</option>
-                                    <option value="kedah">Kedah</option>
-                                    <option value="kelantan">Kelantan</option>
-                                    <option value="melaka">Melaka</option>
-                                    <option value="ns">Negeri Sembilan</option>
-                                    <option value="pahang">Pahang</option>
-                                    <option value="penang">Pulau Pinang</option>
-                                    <option value="perak">Perak</option>
-                                    <option value="perlis">Perlis</option>
-                                    <option value="sabah">Sabah</option>
-                                    <option value="sarawak">Sarawak</option>
-                                    <option value="selangor">Selangor</option>
-                                    <option value="terengganu">Terengganu</option>
-                                    <option value="kl">Kuala Lumpur</option>
-                                    <option value="labuan">Labuan</option>
-                                    <option value="putrajaya">Putrajaya</option>
+                                    <option th:each="state : ${states}" th:value="${state}" th:text="${state}"
+                                        th:selected="${state == user.state}"></option>
                                 </select>
                             </div>
                         </div>
 
                         <!-- Daerah -->
                         <div class="form-group">
-                            <label for="daerah">Daerah</label>
+                            <label for="district">Daerah</label>
                             <div class="input-icon">
                                 <i class="fas fa-map"></i>
-                                <select id="daerah" name="daerah" required>
+                                <select id="district" name="district" required>
                                     <option value="">Pilih Daerah</option>
-                                    <option value="example1">Daerah 1</option>
-                                    <option value="example2">Daerah 2</option>
-                                    <option value="example3">Daerah 3</option>
                                 </select>
                             </div>
                         </div>
 
-                        <!-- Sekolah -->
-                        <div class="form-group">
-                            <label for="sekolah">Sekolah</label>
-                            <div class="input-icon">
-                                <i class="fas fa-school"></i>
-                                <select id="sekolah" name="sekolah" required>
-                                    <option value="">Pilih Sekolah</option>
-                                    <option value="school1">Sekolah 1</option>
-                                    <option value="school2">Sekolah 2</option>
-                                    <option value="school3">Sekolah 3</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <!-- Buttons -->
                         <div class="flex justify-end mt-6">
-                            <button type="button" class="btn btn-cancel">Batal</button>
+                            <a th:href="@{/1-SuperAdmin/UserManagement/listUsers}" class="btn btn-cancel">Batal</a>
                             <button type="submit" class="btn btn-add">Kemas Kini Pengguna</button>
                         </div>
                     </form>
@@ -299,5 +373,51 @@
         </div>
     </div>
 </body>
+
+<script>
+    // Predefined districts for each state
+    const districts = {
+        Johor: ["Johor Bahru", "Muar", "Kluang", "Segamat", "Mersing", "Kota Tinggi", "Batu Pahat", "Pontian", "Pasir Gudang", "Tangkak", "Kulaijaya"],
+        Melaka: ["Melaka Tengah", "Alor Gajah", "Jasin"],
+        Pahang: ["Kuantan", "Temerloh", "Pekan", "Rompin", "Jerantut"],
+        Selangor: ["Petaling", "Hulu Langat", "Klang", "Gombak"],
+        "Negeri Sembilan": ["Seremban", "Port Dickson", "Rembau", "Jelebu"]
+    };
+
+    function populateDistricts(state) {
+        const districtDropdown = document.getElementById("district");
+        districtDropdown.innerHTML = '<option value="">Pilih Daerah</option>'; // Reset the districts
+
+        if (districts[state]) {
+            districts[state].forEach(district => {
+                const option = document.createElement("option");
+                option.value = district;
+                option.text = district;
+                districtDropdown.appendChild(option);
+            });
+
+            // Pre-select the district if it's already selected
+            const selectedDistrict = districtDropdown.getAttribute("data-selected-district");
+            if (selectedDistrict) {
+                districtDropdown.value = selectedDistrict;
+            }
+        }
+    }
+
+    // Automatically populate districts when the page loads
+    document.addEventListener("DOMContentLoaded", function () {
+        const stateDropdown = document.getElementById("state");
+        const selectedState = stateDropdown.value;
+
+        if (selectedState) {
+            populateDistricts(selectedState);
+        }
+
+        // Update districts when the state changes
+        stateDropdown.addEventListener("change", function () {
+            populateDistricts(this.value);
+        });
+    });
+</script>
 
 </html>

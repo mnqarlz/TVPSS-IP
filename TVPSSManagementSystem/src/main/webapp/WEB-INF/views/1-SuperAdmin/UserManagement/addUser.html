@@ -381,10 +381,10 @@
                     <form th:action="@{/1-SuperAdmin/UserManagement/saveUser}" method="post">
                         <!-- Nama Penuh Pengguna -->
                         <div class="form-group">
-                            <label for="fullName">Nama Penuh Pengguna</label>
+                            <label for="name">Nama Penuh Pengguna</label>
                             <div class="input-icon">
                                 <i class="fas fa-user"></i>
-                                <input type="text" id="fullName" name="fullName" placeholder="Masukkan Nama Penuh" required>
+                                <input type="text" id="name" name="name" placeholder="Masukkan Nama Penuh" required>
                             </div>
                         </div>
 
@@ -406,29 +406,26 @@
                             </div>
                         </div>
 
-                        <!-- Sahkan Kata Laluan -->
+                        <!-- Sahkan Kata Laluan
                         <div class="form-group">
                             <label for="confirmPassword">Sahkan Kata Laluan</label>
                             <div class="input-icon">
                                 <i class="fas fa-lock"></i>
                                 <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Sahkan Kata Laluan" required>
                             </div>
-                        </div>
+                        </div>-->
 
-                        <!-- Jenis Pengguna -->
-                        <div class="form-group">
-                            <label for="userType">Jenis Pengguna</label>
-                            <div class="input-icon">
-                                <i class="fas fa-users"></i>
-                                <select id="userType" name="userType" required>
-                                    <option value="">Pilih Jenis Pengguna</option>
-                                    <option value="SUPER_ADMIN">SUPER ADMIN</option>
-                                    <option value="STATE_ADMIN">STATE ADMIN</option>
-                                    <option value="PPD_ADMIN">PPD ADMIN</option>
-                                    <option value="SCHOOL_ADMIN">SCHOOL ADMIN</option>
-                                </select>
-                            </div>
-                        </div>
+                        <!-- Role -->
+					    <div class="form-group">
+					        <label for="role">Jenis Pengguna</label>
+					        <div class="input-icon">
+					            <i class="fas fa-users"></i>
+					            <select id="role" name="role" required>
+					                <option value="">Pilih Jenis Pengguna</option>
+					                <option th:each="role : ${roles}" th:value="${role}" th:text="${role}"></option>
+					            </select>
+					        </div>
+					    </div>
 
                         <!-- Negeri -->
                         <div class="form-group">
