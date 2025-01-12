@@ -1,5 +1,7 @@
 package com.tvpss.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tvpss.entity.User;
 import com.tvpss.enums.Role;
 import com.tvpss.service.UserService;
@@ -21,12 +23,34 @@ public class SuperAdminController {
         this.userService = userService;
     }
 
-    // Dashboard Route
     @GetMapping("/dashboardSA")
     public String dashboardSA(Model model) {
         model.addAttribute("title", "Super Admin Dashboard");
+
+        long stateAdminCount = userService.countUsersByRole(Role.STATE_ADMIN);
+        long ppdAdminCount = userService.countUsersByRole(Role.PPD_ADMIN);
+        long schoolAdminCount = userService.countUsersByRole(Role.SCHOOL_ADMIN);
+
+        model.addAttribute("stateAdminCount", stateAdminCount);
+        model.addAttribute("ppdAdminCount", ppdAdminCount);
+        model.addAttribute("schoolAdminCount", schoolAdminCount);
+        
+        List<String> chartLabels = Arrays.asList("State Admin", "PPD Admin", "School Admin");
+        List<Long> chartValues = Arrays.asList(stateAdminCount, ppdAdminCount, schoolAdminCount);
+
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            model.addAttribute("chartLabels", objectMapper.writeValueAsString(chartLabels));
+            model.addAttribute("chartValues", objectMapper.writeValueAsString(chartValues));
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            model.addAttribute("chartLabels", "[]");
+            model.addAttribute("chartValues", "[]");
+        }
+
         return "1-SuperAdmin/dashboardSA";
     }
+
 
     @GetMapping("/UserManagement/listUsers")
     public String listUsers(@RequestParam(value = "role", required = false) Role role,
@@ -38,7 +62,6 @@ public class SuperAdminController {
             users = userService.findAllUsers();
         }
 
-        // Add role color logic
         for (User user : users) {
             switch (user.getRole().name()) {
                 case "SUPER_ADMIN":
@@ -63,8 +86,6 @@ public class SuperAdminController {
         return "1-SuperAdmin/UserManagement/ListUser";
     }
 
-
-    // Add User Route
     @GetMapping("/UserManagement/addUser")
     public String addUserForm(Model model) {
         model.addAttribute("user", new User());
@@ -75,7 +96,7 @@ public class SuperAdminController {
     @PostMapping("/UserManagement/saveUser")
     public String saveUser(@ModelAttribute("user") User user, Model model) {
         try {
-            userService.saveUser(user); // Ensure this method exists in your UserService
+            userService.saveUser(user);
             return "redirect:/1-SuperAdmin/UserManagement/listUsers";
         } catch (Exception e) {
             model.addAttribute("error", "An error occurred while saving the user. Please try again.");
@@ -92,7 +113,6 @@ public class SuperAdminController {
             throw new IllegalArgumentException("Invalid user Id: " + id);
         }
 
-        // Predefined list of states
         List<String> states = Arrays.asList(
             "Johor", "Melaka", "Pahang", "Selangor", "Negeri Sembilan",
             "Perak", "Kedah", "Pulau Pinang", "Perlis", "Kelantan",
@@ -100,7 +120,6 @@ public class SuperAdminController {
             "Wilayah Persekutuan Kuala Lumpur", "Wilayah Persekutuan Labuan", "Wilayah Persekutuan Putrajaya"
         );
 
-        // Predefined districts by state
         Map<String, List<String>> districtsByState = new HashMap<>();
         districtsByState.put("Johor", Arrays.asList("Johor Bahru", "Muar", "Kluang", "Segamat", "Mersing", "Kota Tinggi", "Batu Pahat", "Pontian", "Pasir Gudang", "Tangkak", "Kulaijaya"));
         districtsByState.put("Melaka", Arrays.asList("Melaka Tengah", "Alor Gajah", "Jasin"));
@@ -118,11 +137,10 @@ public class SuperAdminController {
         districtsByState.put("Wilayah Persekutuan Kuala Lumpur", Arrays.asList("Kuala Lumpur"));
         districtsByState.put("Wilayah Persekutuan Labuan", Arrays.asList("Labuan"));
         districtsByState.put("Wilayah Persekutuan Putrajaya", Arrays.asList("Putrajaya"));
-
-        // Get districts for the user's state
+        districtsByState.put("Melaka", Arrays.asList("Melaka Tengah","Jasin","Alor Gajah"));
+        
         List<String> districts = districtsByState.getOrDefault(user.getState(), Collections.emptyList());
 
-        // Add data to the model
         model.addAttribute("states", states);
         model.addAttribute("districts", districts);
         model.addAttribute("user", user);
@@ -131,7 +149,6 @@ public class SuperAdminController {
 
     @PostMapping("/UserManagement/updateSaveUser")
     public String updateUser(@ModelAttribute User user) {
-        // Debugging logs
         System.out.println("Received User ID: " + user.getId());
         System.out.println("Received Name: " + user.getName());
         System.out.println("Received Email: " + user.getEmail());
@@ -140,26 +157,22 @@ public class SuperAdminController {
         System.out.println("Received District: " + user.getDistrict());
         System.out.println("Received Password: " + user.getPassword());
 
-        // Fetch the existing user
         User existingUser = userService.findUserById(user.getId());
         if (existingUser == null) {
             throw new IllegalArgumentException("Invalid user ID: " + user.getId());
         }
 
-        // Update user details
         existingUser.setName(user.getName());
         existingUser.setEmail(user.getEmail());
         existingUser.setState(user.getState());
         existingUser.setDistrict(user.getDistrict());
 
-        // Update the role if provided as a value
         if (user.getRole() != null) {
-            existingUser.setRole(Role.valueOf(user.getRole().toString())); // Convert string to Role enum
+            existingUser.setRole(Role.valueOf(user.getRole().toString())); 
         }
 
-        // Only update the password if provided
         if (user.getPassword() != null && !user.getPassword().isEmpty()) {
-            existingUser.setPassword(user.getPassword()); // Make sure to encode the password
+            existingUser.setPassword(user.getPassword());
         }
 
         userService.updateUser(existingUser);
@@ -167,7 +180,6 @@ public class SuperAdminController {
         return "redirect:/1-SuperAdmin/UserManagement/listUsers";
     }
 
-    // Delete User Route
     @GetMapping("/UserManagement/deleteUser/{id}")
     public String deleteUser(@PathVariable Long id) {
         userService.deleteUserById(id);

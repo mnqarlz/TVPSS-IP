@@ -54,6 +54,10 @@ public class UserService implements UserDetailsService {
     public List<User> findUsersByRole(Role role) {
     	return role != null ? userDao.findByRole(role) : userDao.findAll();
     }
+    
+    public long countUsersByRole(Role role) {
+        return userDao.findByRole(role).size();
+    }
 
     public void saveUser(User user) {
         user.setPassword(encodePassword(user.getPassword()));

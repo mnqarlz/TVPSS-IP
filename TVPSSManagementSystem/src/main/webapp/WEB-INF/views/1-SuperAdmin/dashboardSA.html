@@ -148,6 +148,7 @@
             transform: scale(1.05);
             box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
         }
+	    
     </style>
 </head>
 
@@ -267,28 +268,32 @@
 
                 <!-- Charts -->
                 <div class="grid grid-cols-2 gap-8 gap-y-8 mb-8">
-                    <!-- Bar Chart -->
-                    <div class="chart-container bg-white border border-gray-300 p-8 rounded-2xl shadow-lg">
-                        <h3 class="chart-title text-xl text-center text-blue-900 font-bold mb-8">
-                            Bilangan Pengguna Mengikut Jenis
-                        </h3>
-                        <div class="h-80 relative">
-                            <canvas id="barChart" th:data-labels="${chartLabels}" th:data-values="${chartValues}"></canvas>
-                        </div>
-                    </div>
-
-                    <!-- Pie Chart -->
-                    <div class="chart-container bg-white border border-gray-300 p-8 rounded-2xl shadow-lg">
-                        <h3 class="chart-title text-xl text-center text-blue-900 font-bold mb-8">
-                            Peratusan Pengguna Mengikut Jenis
-                        </h3>
-                        <div class="h-80 relative">
-                            <canvas id="pieChart" th:data-labels="${chartLabels}" th:data-values="${chartValues}"></canvas>
-                        </div>
-                    </div>
+                   <div class="grid grid-cols-2 gap-8 mb-8">
+					    <div class="grid-container">
+						     <!-- Bar Chart -->
+					        <div class="chart-container bg-white border border-gray-300 rounded-2xl p-8 shadow-lg">
+					            <h3 class="chart-title text-xl text-center text-blue-900 font-bold mb-4">
+					                Bilangan Pengguna Mengikut Jenis
+					            </h3>
+					            <div>
+					                <canvas id="barChart" th:data-labels="${chartLabels}" th:data-values="${chartValues}"></canvas>
+					            </div>
+					        </div>
+					
+					        <!-- Pie Chart -->
+					        <div class="chart-container bg-white border border-gray-300 rounded-2xl p-8 shadow-lg">
+					            <h3 class="chart-title text-xl text-center text-blue-900 font-bold mb-4">
+					                Peratusan Pengguna Mengikut Jenis
+					            </h3>
+					            <div>
+					                <canvas id="pieChart" th:data-labels="${chartLabels}" th:data-values="${chartValues}"></canvas>
+					            </div>
+					        </div>
+						</div>
+					</div>
                 </div>
 
-                <!-- Activity Log -->
+                <!-- Activity Log
                 <div class="bg-white mt-4 mb-4 p-6 rounded-2xl border border-gray-300 w-full shadow-md">
                     <h3 class="text-xl font-bold text-gray-800 mb-4">Aktiviti Terkini</h3>
                     <div class="overflow-auto max-h-96">
@@ -308,35 +313,60 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
 
-            <!-- Footer -->
+        </div>
+        <!-- Footer -->
             <footer>
                 <p>&copy; 2024 Kementerian Pendidikan Malaysia (KPM)</p>
             </footer>
-        </div>
     </div>
 
-    <script>
-        const barChart = document.getElementById('barChart');
-        const pieChart = document.getElementById('pieChart');
-        const barData = {
-            labels: JSON.parse(barChart.getAttribute('data-labels')),
-            datasets: [{
-                data: JSON.parse(barChart.getAttribute('data-values')),
-                backgroundColor: ['rgba(59, 130, 246, 0.8)', 'rgba(99, 102, 241, 0.8)', 'rgba(147, 51, 234, 0.8)']
-            }]
-        };
-        const doughnutData = {
-            labels: JSON.parse(pieChart.getAttribute('data-labels')),
-            datasets: [{
-                data: JSON.parse(pieChart.getAttribute('data-values')),
-                backgroundColor: ['rgba(59, 130, 246, 0.8)', 'rgba(99, 102, 241, 0.8)', 'rgba(147, 51, 234, 0.8)']
-            }]
-        };
-        new Chart(barChart, { type: 'bar', data: barData });
-        new Chart(pieChart, { type: 'doughnut', data: doughnutData });
-    </script>
+    <script th:inline="javascript">
+	    const barChart = document.getElementById('barChart');
+	    const pieChart = document.getElementById('pieChart');
+	
+	    const chartLabels = JSON.parse(/*[[${chartLabels}]]*/ '[]');
+	    const chartValues = JSON.parse(/*[[${chartValues}]]*/ '[]');
+	
+	    if (chartLabels.length && chartValues.length) {
+	        new Chart(barChart, {
+	            type: "bar",
+	            data: {
+	                labels: chartLabels,
+	                datasets: [{
+	                    label: "Bilangan Pengguna",
+	                    data: chartValues,
+	                    backgroundColor: ["#3B82F6", "#6366F1", "#9333EA"]
+	                }]
+	            },
+	            options: {
+	                responsive: true,
+	                maintainAspectRatio: false,
+	                plugins: { legend: { display: false } }
+	            }
+	        });
+	
+	        new Chart(pieChart, {
+	            type: "pie",
+	            data: {
+	                labels: chartLabels,
+	                datasets: [{
+	                    data: chartValues,
+	                    backgroundColor: ["#3B82F6", "#6366F1", "#9333EA"]
+	                }]
+	            },
+	            options: {
+	                responsive: true,
+	                plugins: {
+	                    legend: {
+	                        position: "top"
+	                    }
+	                }
+	            }
+	        });
+	    }
+	</script>
 </body>
 
 </html>
