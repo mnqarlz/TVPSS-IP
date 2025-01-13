@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Servlet implementation class PPDAdmin
  */
-@WebServlet("/PPDAdmin")
+@WebServlet("/4-SchoolAdmin")
 public class PPDAdmin extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        

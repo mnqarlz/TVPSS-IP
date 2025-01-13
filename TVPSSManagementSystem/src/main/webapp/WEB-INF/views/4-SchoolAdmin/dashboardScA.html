@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard PPDAdmin</title>
+    <title>TVPSS | Dashboard</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -20,14 +20,14 @@
             position: fixed;
             top: 0;
             left: 0;
-            width: 300px;
+            width: 350px;
             height: 100vh;
             border: none;
             background-color: #1f2937;
         }
 
         .ml-64 {
-            margin-left: 300px;
+            margin-left: 350px;
         }
 
         footer {
@@ -181,6 +181,79 @@
 </head>
 
 <body>
+	<aside id="sidebar" class="fixed top-0 left-0 bg-gray-800 text-gray-200 h-screen flex flex-col z-40 shadow-lg" style="width: 350px;">
+	    <!-- Logo Section -->
+	    <div class="p-6 border-b border-gray-700">
+	        <div class="flex justify-center">
+	            <img src="/assets/TVPSSLogo.jpg" alt="TVPSS Logo" class="w-32 transition-transform duration-300 hover:scale-110">
+	        </div>
+	        <h2 class="mt-4 text-center text-lg font-bold text-gray-100">TVPSS Management</h2>
+	    </div>
+	
+	    <!-- Menu Section -->
+	    <div class="flex-1 overflow-y-auto px-4 py-6">
+	        <h3 class="px-4 text-sm font-semibold text-gray-400 uppercase tracking-wider mb-4">Menu</h3>
+	        <nav class="space-y-2">
+	            <!-- Dashboard -->
+	            <a th:href="@{/4-SchoolAdmin/dashboardScA}" 
+	               th:classappend="${#httpServletRequest != null and #httpServletRequest.requestURI == '/4-SchoolAdmin/dashboardScA' ? 'bg-gray-700 text-white' : ''}"
+	               class="flex items-center px-4 py-3 rounded-lg hover:bg-gray-700 hover:text-white transition-colors duration-200">
+	                <i class="fas fa-th-large w-6 h-6 mr-3 text-gray-400"></i>
+	                <span>Dashboard</span>
+	            </a>
+	
+	            <!-- Senarai Pelajar -->
+	            <a th:href="@{/4-SchoolAdmin/StudentManagement}" 
+	               th:classappend="${#httpServletRequest != null and #httpServletRequest.requestURI == '/4-SchoolAdmin/StudentManagement' ? 'bg-gray-700 text-white' : ''}"
+	               class="flex items-center px-4 py-3 rounded-lg hover:bg-gray-700 hover:text-white transition-colors duration-200">
+	                <i class="fas fa-user-graduate w-6 h-6 mr-3 text-gray-400"></i>
+	                <span>Senarai Pelajar</span>
+	            </a>
+	
+	            <!-- Permohonan Krew -->
+	            <a th:href="@{/4-SchoolAdmin/CrewApplication}" 
+	               th:classappend="${#httpServletRequest != null and #httpServletRequest.requestURI == '/4-SchoolAdmin/CrewApplication' ? 'bg-gray-700 text-white' : ''}"
+	               class="flex items-center px-4 py-3 rounded-lg hover:bg-gray-700 hover:text-white transition-colors duration-200">
+	                <i class="fas fa-pencil-alt w-6 h-6 mr-3 text-gray-400"></i>
+	                <span>Permohonan Krew</span>
+	            </a>
+	
+	            <!-- Pencapaian Pelajar -->
+	            <a th:href="@{/4-SchoolAdmin/StudentAchievement}" 
+	               th:classappend="${#httpServletRequest != null and #httpServletRequest.requestURI == '/4-SchoolAdmin/StudentAchievement' ? 'bg-gray-700 text-white' : ''}"
+	               class="flex items-center px-4 py-3 rounded-lg hover:bg-gray-700 hover:text-white transition-colors duration-200">
+	                <i class="fas fa-check-circle w-6 h-6 mr-3 text-gray-400"></i>
+	                <span>Pencapaian Pelajar</span>
+	            </a>
+	
+	            <!-- Pengurusan Peralatan -->
+	            <a th:href="@{/4-SchoolAdmin/ManageEquipment}" 
+	               th:classappend="${#httpServletRequest != null and #httpServletRequest.requestURI == '/4-SchoolAdmin/ManageEquipment' ? 'bg-gray-700 text-white' : ''}"
+	               class="flex items-center px-4 py-3 rounded-lg hover:bg-gray-700 hover:text-white transition-colors duration-200">
+	                <i class="fas fa-random w-6 h-6 mr-3 text-gray-400"></i>
+	                <span>Pengurusan Peralatan</span>
+	            </a>
+	
+	            <!-- Submit Versi TVPSS -->
+	            <a th:href="@{/4-SchoolAdmin/SchoolTVPSSVersion}" 
+	               th:classappend="${#httpServletRequest != null and #httpServletRequest.requestURI == '/4-SchoolAdmin/SchoolTVPSSVersion' ? 'bg-gray-700 text-white' : ''}"
+	               class="flex items-center px-4 py-3 rounded-lg hover:bg-gray-700 hover:text-white transition-colors duration-200">
+	                <i class="fas fa-paper-plane w-6 h-6 mr-3 text-gray-400"></i>
+	                <span>Submit Versi TVPSS</span>
+	            </a>
+	        </nav>
+	    </div>
+	
+	    <!-- Footer Section -->
+	    <div class="p-4 border-t border-gray-700">
+	        <a th:href="@{/logout}" 
+	           class="flex items-center px-4 py-3 rounded-lg text-red-500 hover:bg-gray-700 hover:text-red-300 transition-colors duration-200">
+	            <i class="fas fa-sign-out-alt w-6 h-6 mr-3 text-red-500"></i>
+	            <span>Log Keluar</span>
+	        </a>
+	    </div>
+	</aside>
+    
     <div class="ml-64">
         <div>
             <div class="header">
@@ -289,7 +362,7 @@
 
                 </div>
 
-                <div class="bg-white mt-4 mb-4 p-6 rounded-2xl border border-gray-300 w-full">
+                <!--<div class="bg-white mt-4 mb-4 p-6 rounded-2xl border border-gray-300 w-full">
                     <h3 class="text-xl font-bold text-gray-800 mb-4">Aktiviti Terkini</h3>
                     <div class="overflow-auto max-h-96">
                         <div class="flex items-start justify-between mb-4 p-3 bg-gray-50 rounded-lg">
@@ -307,7 +380,8 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div>-->
+                
             </div>
 
             <footer>

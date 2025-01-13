@@ -1,41 +1,20 @@
 package com.tvpss.controller;
 
-import java.io.IOException;
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 
-/**
- * Servlet implementation class SchoolAdminController
- */
-@WebServlet("/SchoolAdminController")
-public class SchoolAdminController extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public SchoolAdminController() {
-        super();
-        // TODO Auto-generated constructor stub
+//import com.tvpss.service.SchoolService;
+
+@Controller
+@RequestMapping("/4-SchoolAdmin")
+public class SchoolAdminController {
+
+    @GetMapping("/dashboardScA")
+    public String dashboardScA(Model model) {
+    	System.out.println("Dashboard route accessed");
+    	model.addAttribute("title", "School Admin Dashboard");
+        return "4-SchoolAdmin/dashboardScA";
     }
-
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
-	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
-	}
-
 }

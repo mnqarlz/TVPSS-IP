@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TVPSS | Kemaskini Versi TVPSS</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script>
+        function previewImage(event) {
+            const file = event.target.files[0];
+            const preview = document.getElementById('tvpssLogoPreview');
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = () => {
+                    preview.src = reader.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="container my-5">
+        <!-- Breadcrumb Section -->
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/updateSchoolTVPSSVersion">Submit Versi TVPSS</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Informasi Versi TVPSS Sekolah</li>
+            </ol>
+        </nav>
+
+        <div class="card shadow">
+            <div class="card-header text-center">
+                <h3>Maklumat Versi TVPSS</h3>
+            </div>
+            <div class="card-body">
+                <form th:action="@{/tvpss2Edit}" method="post" enctype="multipart/form-data">
+                    <!-- TVPSS Logo Upload -->
+                    <div class="text-center mb-4">
+                        <input type="file" name="tvpssLogo" id="tvpssLogoUpload" class="form-control d-none" th:onchange="previewImage(event)">
+                        <div class="border border-secondary rounded-circle mx-auto" style="width: 150px; height: 150px; overflow: hidden; cursor: pointer;" onclick="document.getElementById('tvpssLogoUpload').click()">
+                            <img id="tvpssLogoPreview" th:src="@{/${tvpssLogo}}" alt="TVPSS Logo Preview" class="img-fluid">
+                        </div>
+                        <small class="text-muted">Klik untuk Muat Naik Logo TVPSS</small>
+                    </div>
+
+                    <!-- Agency Details -->
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="agency1_name" class="form-label">Agensi 1</label>
+                            <input type="text" class="form-control" id="agency1_name" name="agency1_name" th:value="${agency1_name}">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="agency1Manager_name" class="form-label">Pengurus Agensi 1</label>
+                            <input type="text" class="form-control" id="agency1Manager_name" name="agency1Manager_name" th:value="${agency1Manager_name}">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="agency2_name" class="form-label">Agensi 2</label>
+                            <input type="text" class="form-control" id="agency2_name" name="agency2_name" th:value="${agency2_name}">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="agency2Manager_name" class="form-label">Pengurus Agensi 2</label>
+                            <input type="text" class="form-control" id="agency2Manager_name" name="agency2Manager_name" th:value="${agency2Manager_name}">
+                        </div>
+                    </div>
+
+                    <!-- Additional Details -->
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="recordEquipment" class="form-label">Peralatan Rakaman</label>
+                            <select class="form-select" id="recordEquipment" name="recordEquipment">
+                                <option value="Ada" th:selected="${recordEquipment == 'Ada'}">Ada</option>
+                                <option value="Tiada" th:selected="${recordEquipment == 'Tiada'}">Tiada</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="tvpssStudio" class="form-label">Studio TVPSS</label>
+                            <select class="form-select" id="tvpssStudio" name="tvpssStudio">
+                                <option value="Ada" th:selected="${tvpssStudio == 'Ada'}">Ada</option>
+                                <option value="Tiada" th:selected="${tvpssStudio == 'Tiada'}">Tiada</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="recInSchool" class="form-label">Rakaman Dalam Sekolah</label>
+                            <select class="form-select" id="recInSchool" name="recInSchool">
+                                <option value="Ada" th:selected="${recInSchool == 'Ada'}">Ada</option>
+                                <option value="Tiada" th:selected="${recInSchool == 'Tiada'}">Tiada</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="recInOutSchool" class="form-label">Rakaman Luar Sekolah</label>
+                            <select class="form-select" id="recInOutSchool" name="recInOutSchool">
+                                <option value="Ada" th:selected="${recInOutSchool == 'Ada'}">Ada</option>
+                                <option value="Tiada" th:selected="${recInOutSchool == 'Tiada'}">Tiada</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="greenScreen" class="form-label">'Green Screen' Technology</label>
+                            <select class="form-select" id="greenScreen" name="greenScreen">
+                                <option value="Ada" th:selected="${greenScreen == 'Ada'}">Ada</option>
+                                <option value="Tiada" th:selected="${greenScreen == 'Tiada'}">Tiada</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Buttons -->
+                    <div class="text-end">
+                        <button type="reset" class="btn btn-secondary me-2">Batal</button>
+                        <button type="submit" class="btn btn-primary">Hantar Informasi TVPSS</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
