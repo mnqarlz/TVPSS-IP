@@ -164,8 +164,7 @@
 	    </div>
 	
 	    <!-- Menu Section -->
-	    <div class="flex-1 overflow-y-auto px-4 py-6">
-	        <h3 class="px-4 text-sm font-semibold text-gray-400 uppercase tracking-wider mb-4">Menu</h3>
+	    <div class="flex-1 overflow-y-auto px-9 py-6">
 	        <nav class="space-y-2">
 	            <!-- Dashboard Link -->
 	            <a th:href="@{/1-SuperAdmin/dashboardSA}" 
@@ -267,31 +266,28 @@
                 </div>
 
                 <!-- Charts -->
-                <div class="grid grid-cols-2 gap-8 gap-y-8 mb-8">
-                   <div class="grid grid-cols-2 gap-8 mb-8">
-					    <div class="grid-container">
-						     <!-- Bar Chart -->
-					        <div class="chart-container bg-white border border-gray-300 rounded-2xl p-8 shadow-lg">
-					            <h3 class="chart-title text-xl text-center text-blue-900 font-bold mb-4">
-					                Bilangan Pengguna Mengikut Jenis
-					            </h3>
-					            <div>
-					                <canvas id="barChart" th:data-labels="${chartLabels}" th:data-values="${chartValues}"></canvas>
-					            </div>
-					        </div>
-					
-					        <!-- Pie Chart -->
-					        <div class="chart-container bg-white border border-gray-300 rounded-2xl p-8 shadow-lg">
-					            <h3 class="chart-title text-xl text-center text-blue-900 font-bold mb-4">
-					                Peratusan Pengguna Mengikut Jenis
-					            </h3>
-					            <div>
-					                <canvas id="pieChart" th:data-labels="${chartLabels}" th:data-values="${chartValues}"></canvas>
-					            </div>
-					        </div>
-						</div>
-					</div>
-                </div>
+                <div class="grid grid-cols-2 gap-8 mb-8">
+    <!-- Bar Chart -->
+    <div class="chart-container bg-white border border-gray-300 rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-transform duration-300">
+        <h3 class="chart-title text-xl text-center text-blue-900 font-bold mb-4">
+            Bilangan Pengguna Mengikut Jenis
+        </h3>
+        <div>
+            <canvas id="barChart" th:data-labels="${chartLabels}" th:data-values="${chartValues}"></canvas>
+        </div>
+    </div>
+
+    <!-- Pie Chart -->
+    <div class="chart-container bg-white border border-gray-300 rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-transform duration-300">
+        <h3 class="chart-title text-xl text-center text-blue-900 font-bold mb-4">
+            Peratusan Pengguna Mengikut Jenis
+        </h3>
+        <div>
+            <canvas id="pieChart" th:data-labels="${chartLabels}" th:data-values="${chartValues}"></canvas>
+        </div>
+    </div>
+</div>
+
 
                 <!-- Activity Log
                 <div class="bg-white mt-4 mb-4 p-6 rounded-2xl border border-gray-300 w-full shadow-md">
