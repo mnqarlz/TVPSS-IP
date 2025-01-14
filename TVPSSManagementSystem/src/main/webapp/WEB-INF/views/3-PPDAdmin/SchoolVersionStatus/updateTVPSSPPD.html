@@ -1,10 +1,289 @@
-D<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TVPSS | Informasi TVPSS Sekolah</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f4f7fc;
+            margin: 0;
+            padding: 0;
+        }
+
+        iframe {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 400px;
+            height: 100vh;
+            border: none;
+            background-color: #1f2937;
+        }
+
+        .ml-64 {
+            margin-left: 300px;
+        }
+
+        footer {
+            background-color: #ffffff;
+            padding: 16px 32px;
+            border-top: 1px solid #e5e7eb;
+            text-align: center;
+            color: #2a4365;
+            width: 100%;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+
+        .header {
+            background-color: #ffffff;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 16px 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .header h2 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: #374151;
+        }
+
+        .header .controls button:hover {
+            background-color: #2a4365;
+        }
+
+        .main-content {
+            padding: 24px;
+            background-color: #f9fafb;
+            min-height: calc(100vh - 100px);
+        }
+
+    </style>
+</head>
+
+<body>
+    <!-- Sidebar -->
+    <aside id="sidebar" class="fixed top-0 left-0 bg-gray-800 text-gray-200 h-screen flex flex-col z-40 shadow-lg">
+        <div class="p-6 border-b border-gray-700">
+            <div class="flex justify-center">
+                <img src="/assets/TVPSSLogo.jpg" alt="TVPSS Logo" class="w-32 transition-transform duration-300 hover:scale-110">
+            </div>
+            <h2 class="mt-4 text-center text-lg font-bold text-gray-100">TVPSS Management</h2>
+        </div>
+        <div class="flex-1 overflow-y-auto px-4 py-6">
+            <h3 class="px-4 text-sm font-semibold text-gray-400 uppercase tracking-wider mb-4">Menu</h3>
+            <nav class="space-y-2">
+                <a th:href="@{/1-SuperAdmin/dashboardSA}" class="flex items-center px-4 py-3 rounded-lg hover:bg-gray-700 hover:text-white transition-colors duration-200">
+                    <svg class="menu-icon w-6 h-6 mr-3 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path>
+                        <path d="M22 12A10 10 0 0 0 12 2v10z"></path>
+                    </svg>
+                    <span>Dashboard</span>
+                </a>
+                
+                <a th:href="@{/1-SuperAdmin/dashboardSA}" class="flex items-center px-4 py-3 rounded-lg hover:bg-gray-700 hover:text-white transition-colors duration-200">
+    <svg class="menu-icon w-6 h-6 mr-3 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 19.5A2.5 2.5 0 0 0 6.5 22h11a2.5 2.5 0 0 0 2.5-2.5v-15A2.5 2.5 0 0 0 17.5 2h-11A2.5 2.5 0 0 0 4 4.5v15z"></path>
+        <path d="M6 9h12M6 12h8M6 15h6"></path>
+    </svg>
+    <span>Informasi TVPSS Sekolah</span>
+</a>
+
+                <!-- Add additional menu items here -->
+            </nav>
+        </div>
+        <div class="p-4 border-t border-gray-700">
+            <a th:href="@{/logout}" class="flex items-center px-4 py-3 rounded-lg text-red-500 hover:bg-gray-700 hover:text-red-300 transition-colors duration-200">
+                <svg class="menu-icon w-6 h-6 mr-3 text-red-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                    <polyline points="16 17 21 12 16 7"></polyline>
+                    <line x1="21" y1="12" x2="9" y2="12"></line>
+                </svg>
+                <span>Log Keluar</span>
+            </a>
+        </div>
+    </aside>
+
+    <div class="ml-64">
+        <header class="header">
+            <h2>Informasi TVPSS Sekolah</h2>
+            
+        </header>
+        <main class="main-content">
+             <!-- Main Content -->
+        <main class="flex-1 ml-64">
+            <!-- Header -->
+            <header class="bg-white shadow-sm">
+                <h1 class="text-2xl font-bold text-blue-900">
+                    Info Status TVPSS
+                </h1>
+            </header>
+
+            <div class="p-8">
+                <!-- Breadcrumb -->
+                <nav class="flex items-center space-x-2 mb-6 text-sm">
+                    <a href="/tvpssInfoPPDList" class="text-blue-600 hover:text-blue-800 font-medium">
+                        Informasi TVPSS Sekolah
+                    </a>
+                    <i class="fas fa-chevron-right text-gray-400 text-xs"></i>
+                    <a href="/tvpssInfoPPDList" class="text-blue-600 hover:text-blue-800 font-medium">
+                        Info Status TVPSS
+                    </a>
+                    <i class="fas fa-chevron-right text-gray-400 text-xs"></i>
+                    <span class="text-gray-600 font-medium" th:text="${schoolName}"></span>
+                </nav>
+
+                <!-- Title -->
+                <h2 class="text-xl font-bold text-gray-800 mb-6">Maklumat Sekolah</h2>
+
+                <!-- Content Grid -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <!-- School Information Card -->
+                    <div class="bg-white rounded-xl shadow-sm overflow-hidden">
+                        <!-- School Header -->
+                        <div class="bg-gradient-to-r from-blue-900 to-blue-800 p-6">
+                            <h3 class="text-xl font-bold text-white" th:text="${schoolName}"></h3>
+                        </div>
+
+                        <!-- School Details -->
+                        <div class="p-6 space-y-6">
+                            <!-- Section A -->
+                            <div>
+                                <h4 class="text-lg font-semibold text-gray-700 mb-4">A. Info Sekolah</h4>
+                                <div class="flex items-center space-x-2">
+                                    <span class="text-gray-600">Pegawai TVPSS Sekolah:</span>
+                                    <span class="px-3 py-1 bg-blue-50 text-blue-700 rounded-lg font-medium" 
+                                          th:text="${officer}">
+                                    </span>
+                                </div>
+                            </div>
+
+                            <!-- Section B -->
+                            <div>
+                                <h4 class="text-lg font-semibold text-gray-700 mb-4">B. Info TVPSS Sekolah</h4>
+                                <div class="space-y-3">
+                                    <div th:each="field : ${descriptiveFields}" 
+                                         class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                                        <span class="text-gray-600" th:text="${field.label}"></span>
+                                        <span th:class="${field.value == 'Ada' ? 
+                                                        'px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm font-medium' :
+                                                        'px-3 py-1 bg-red-100 text-red-700 rounded-full text-sm font-medium'}"
+                                              th:text="${field.value}">
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Status Update Card -->
+                    <div class="bg-white rounded-xl shadow-sm p-6">
+                        <div class="text-center space-y-6">
+                            <h3 class="text-xl font-bold text-gray-800">PENUHI KEPERLUAN</h3>
+                            <p class="text-gray-600 underline">Naik Taraf Status Versi</p>
+
+                            <!-- Version Display -->
+                            <div class="flex items-center justify-center space-x-4 my-8">
+                                <span class="text-2xl font-bold text-blue-900" th:text="${currentVersion}"></span>
+                                <i class="fas fa-arrow-right text-gray-400"></i>
+                                <span class="text-2xl font-bold text-red-600" th:text="${nextVersion}"></span>
+                            </div>
+
+                            <!-- Action Buttons -->
+                            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                                <button onclick="approve()"
+                                        class="px-6 py-3 bg-blue-600 text-white rounded-lg shadow-sm hover:bg-blue-700 
+                                               focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors
+                                               flex items-center justify-center space-x-2">
+                                    <i class="fas fa-check"></i>
+                                    <span>Lulus</span>
+                                </button>
+                                <button onclick="reject()"
+                                        class="px-6 py-3 bg-red-600 text-white rounded-lg shadow-sm hover:bg-red-700
+                                               focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors
+                                               flex items-center justify-center space-x-2">
+                                    <i class="fas fa-times"></i>
+                                    <span>Tolak</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Confirmation Modals -->
+    <div id="approveModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
+        <div class="bg-white rounded-xl p-6 max-w-md w-full mx-4">
+            <h3 class="text-lg font-bold text-gray-900 mb-4">Confirm Approval</h3>
+            <p class="text-gray-600 mb-6">Are you sure you want to approve this version update?</p>
+            <div class="flex justify-end space-x-4">
+                <button onclick="closeModal('approveModal')"
+                        class="px-4 py-2 text-gray-600 hover:text-gray-800">
+                    Cancel
+                </button>
+                <button onclick="confirmApprove()"
+                        class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+                    Confirm
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="rejectModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
+        <div class="bg-white rounded-xl p-6 max-w-md w-full mx-4">
+            <h3 class="text-lg font-bold text-gray-900 mb-4">Confirm Rejection</h3>
+            <p class="text-gray-600 mb-4">Are you sure you want to reject this version update?</p>
+            <textarea placeholder="Enter rejection reason..." 
+                      class="w-full p-3 border border-gray-300 rounded-lg mb-6 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+            </textarea>
+            <div class="flex justify-end space-x-4">
+                <button onclick="closeModal('rejectModal')"
+                        class="px-4 py-2 text-gray-600 hover:text-gray-800">
+                    Cancel
+                </button>
+                <button onclick="confirmReject()"
+                        class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700">
+                    Confirm
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function approve() {
+            document.getElementById('approveModal').classList.remove('hidden');
+        }
+
+        function reject() {
+            document.getElementById('rejectModal').classList.remove('hidden');
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.add('hidden');
+        }
+
+        function confirmApprove() {
+            // Add your approval logic here
+            closeModal('approveModal');
+        }
+
+        function confirmReject() {
+            // Add your rejection logic here
+            closeModal('rejectModal');
+        }
+    </script>
 </body>
 </html>
