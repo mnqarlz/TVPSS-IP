@@ -88,11 +88,27 @@ public class SchoolAdminController {
     @PostMapping("/SchoolTVPSSVersion/saveTVPSSVersion")
     public String saveTVPSSVersion(TVPSSVersion tvpssVersion, Model model) {
         try {
-            tvpssVersionService.updateSchoolAndVersion(tvpssVersion.getSchoolInfo(), tvpssVersion);
+            // Debugging: Log the TVPSSVersion object
+            System.out.println("DEBUG: Received TVPSSVersion ID: " + tvpssVersion.getId());
+            System.out.println("DEBUG: Associated SchoolInfo ID: " + tvpssVersion.getSchoolInfo().getId());
+
+            // Ensure SchoolInfo is valid
+            SchoolInfo schoolInfo = tvpssVersion.getSchoolInfo();
+            if (schoolInfo == null || schoolInfo.getId() == null) {
+                throw new IllegalArgumentException("Invalid SchoolInfo. Please ensure it is provided and valid.");
+            }
+
+            // Save or update the TVPSSVersion
+            tvpssVersionService.updateSchoolAndVersion(schoolInfo, tvpssVersion);
+
+            System.out.println("DEBUG: Successfully saved or updated TVPSSVersion.");
             return "redirect:/4-SchoolAdmin/dashboardScA";
+        } catch (IllegalArgumentException e) {
+            model.addAttribute("error", e.getMessage());
+            return "redirect:/4-SchoolAdmin/SchoolTVPSSVersion/updateTVPSSVersion";
         } catch (Exception e) {
             e.printStackTrace();
-            model.addAttribute("error", "An error occurred while saving the TVPSS version.");
+            model.addAttribute("error", "An unexpected error occurred while saving the TVPSS version.");
             return "redirect:/4-SchoolAdmin/SchoolTVPSSVersion/updateTVPSSVersion";
         }
     }

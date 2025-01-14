@@ -66,7 +66,7 @@ public class TVPSSVersionService {
             } else {
                 version.setStateApproval(false);
                 version.setStatus(ApprovalStatus.REJECTED); 
-            }
+            } 
         }
 
         version.setUpdatedAt(new java.util.Date());
@@ -88,15 +88,12 @@ public class TVPSSVersionService {
         int version = checkTVPSSVersion(schoolInfo, tvpssVersion);
         tvpssVersion.setVersion(version);
 
-        // Set the status to pending and reset approvals
         tvpssVersion.setStatus(ApprovalStatus.PENDING);
-        tvpssVersion.setPpdApproval(false);
-        tvpssVersion.setStateApproval(false);
+        tvpssVersion.setPpdApproval(tvpssVersion.getPpdApproval() != null ? tvpssVersion.getPpdApproval() : false);
+        tvpssVersion.setStateApproval(tvpssVersion.getStateApproval() != null ? tvpssVersion.getStateApproval() : false);
 
-        // Associate the TVPSSVersion with SchoolInfo
         tvpssVersion.setSchoolInfo(schoolInfo);
 
-        // Save changes
         save(tvpssVersion);
     }
 

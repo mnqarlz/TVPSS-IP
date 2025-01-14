@@ -18,7 +18,7 @@ public class TVPSSVersion {
     private SchoolInfo schoolInfo;
 
     private Integer version;
-    private Integer approvedVersion;
+    //private Integer approvedVersion;
     private ApprovalStatus status;
 
     private Boolean ppdApproval;
@@ -58,7 +58,7 @@ public class TVPSSVersion {
     @Enumerated(EnumType.STRING)
     private RecordStatus isCollabAgency;
 
-    private String tvpssLogo;
+    //private String tvpssLogo;
 
     /*@Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;*/
@@ -101,13 +101,13 @@ public class TVPSSVersion {
         this.version = version;
     }
 
-    public Integer getApprovedVersion() {
+    /*public Integer getApprovedVersion() {
         return approvedVersion;
     }
 
     public void setApprovedVersion(Integer approvedVersion) {
         this.approvedVersion = approvedVersion;
-    }
+    }*/
 
     public ApprovalStatus getStatus() {
         return status;
@@ -245,13 +245,13 @@ public class TVPSSVersion {
         this.isCollabAgency = isCollabAgency;
     }
 
-    public String getTvpssLogo() {
+    /*public String getTvpssLogo() {
         return tvpssLogo;
     }
 
     public void setTvpssLogo(String tvpssLogo) {
         this.tvpssLogo = tvpssLogo;
-    }
+    }*/
 
     /*public Date getCreatedAt() {
         return createdAt;
