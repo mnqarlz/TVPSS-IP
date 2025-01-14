@@ -80,6 +80,10 @@ public class TVPSSVersionService {
     public void deleteById(Long id) {
         tvpssVersionDao.deleteById(id);
     }
+    
+    public List<TVPSSVersion> findAllByStatus(ApprovalStatus status) {
+        return tvpssVersionDao.findAllByStatus(status);
+    }
 
     public void updateApprovalStatus(Long id, boolean isApproved, Role role) {
         TVPSSVersion version = findById(id);

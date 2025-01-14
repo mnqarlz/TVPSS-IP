@@ -1,6 +1,8 @@
 package com.tvpss.dao;
 
 import com.tvpss.entity.TVPSSVersion;
+import com.tvpss.enums.ApprovalStatus;
+
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -49,5 +51,12 @@ public class TVPSSVersionDao {
         if (tvpssVersion != null) {
             entityManager.remove(tvpssVersion);
         }
+    }
+    
+    public List<TVPSSVersion> findAllByStatus(ApprovalStatus status) {
+        String query = "SELECT t FROM TVPSSVersion t WHERE t.status = :status";
+        return entityManager.createQuery(query, TVPSSVersion.class)
+                .setParameter("status", status)
+                .getResultList();
     }
 }
