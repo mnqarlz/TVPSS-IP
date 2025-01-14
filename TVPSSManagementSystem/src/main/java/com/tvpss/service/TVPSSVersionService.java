@@ -1,16 +1,16 @@
 package com.tvpss.service;
 
+import com.tvpss.dao.SchoolInfoDao;
 import com.tvpss.dao.TVPSSVersionDao;
 import com.tvpss.entity.SchoolInfo;
 import com.tvpss.entity.TVPSSVersion;
+import com.tvpss.entity.User;
 import com.tvpss.enums.ApprovalStatus;
 import com.tvpss.enums.RecordStatus;
 import com.tvpss.enums.Role;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.List;
 
 @Service
@@ -18,11 +18,47 @@ import java.util.List;
 public class TVPSSVersionService {
 
     private final TVPSSVersionDao tvpssVersionDao;
-    //private final FileService fileService;
+    private final SchoolInfoDao schoolDao;
+    private final UserService userService;
 
-    public TVPSSVersionService(TVPSSVersionDao tvpssVersionDao/*, FileService fileService*/) {
+    public TVPSSVersionService(TVPSSVersionDao tvpssVersionDao, SchoolInfoDao schoolDao, UserService userService) {
         this.tvpssVersionDao = tvpssVersionDao;
-        //this.fileService = fileService;
+        this.schoolDao = schoolDao;
+        this.userService = userService;
+    }
+    
+    public void saveOrUpdateTVPSSVersion(TVPSSVersion tvpssVersion) {
+        TVPSSVersion existingVersion = tvpssVersionDao.findBySchoolInfoId(tvpssVersion.getSchoolInfo().getId());
+
+        if (existingVersion != null) {
+            mergeVersions(existingVersion, tvpssVersion);
+            tvpssVersionDao.save(existingVersion);
+        } else {
+            tvpssVersion.setStatus(ApprovalStatus.PENDING);
+            tvpssVersion.setPpdApproval(false);
+            tvpssVersion.setStateApproval(false);
+
+            // Set RecordStatus values correctly
+            tvpssVersion.setIsFillSchoolName(
+            	tvpssVersion.getSchoolInfo().getSchoolName() != null ? RecordStatus.ADA : RecordStatus.TIADA
+            );
+            tvpssVersion.setIsNoPhone(
+            	tvpssVersion.getSchoolInfo().getNoPhone() != null ? RecordStatus.ADA : RecordStatus.TIADA
+            );
+            tvpssVersion.setIsUploadYoutube(
+                tvpssVersion.getSchoolInfo().getLinkYoutube() != null ? RecordStatus.ADA : RecordStatus.TIADA
+            );
+            tvpssVersion.setIsCollabAgency(
+                (tvpssVersion.getAgency1Name() != null || tvpssVersion.getAgency2Name() != null)
+                    ? RecordStatus.ADA
+                    : RecordStatus.TIADA
+            );
+
+            // Determine and set the version
+            tvpssVersion.setVersion(checkTVPSSVersion(tvpssVersion.getSchoolInfo(), tvpssVersion));
+
+            tvpssVersionDao.save(tvpssVersion);
+        }
     }
 
     public TVPSSVersion findById(Long id) {
@@ -54,10 +90,10 @@ public class TVPSSVersionService {
         if (role == Role.PPD_ADMIN) {
             if (isApproved) {
                 version.setPpdApproval(true);
-                version.setStatus(ApprovalStatus.PENDING); 
+                version.setStatus(ApprovalStatus.PENDING);
             } else {
                 version.setPpdApproval(false);
-                version.setStatus(ApprovalStatus.REJECTED); 
+                version.setStatus(ApprovalStatus.REJECTED);
             }
         } else if (role == Role.STATE_ADMIN) {
             if (isApproved) {
@@ -65,42 +101,64 @@ public class TVPSSVersionService {
                 version.setStatus(ApprovalStatus.APPROVED);
             } else {
                 version.setStateApproval(false);
-                version.setStatus(ApprovalStatus.REJECTED); 
-            } 
+                version.setStatus(ApprovalStatus.REJECTED);
+            }
         }
 
         version.setUpdatedAt(new java.util.Date());
         save(version);
     }
 
-    public void updateSchoolAndVersion(SchoolInfo schoolInfo, TVPSSVersion tvpssVersion) {
-        if (schoolInfo == null || schoolInfo.getId() == null) {
-            throw new IllegalArgumentException("SchoolInfo must not be null and must have a valid ID.");
+    public void updateSchoolAndVersion(Long schoolInfoId, TVPSSVersion tvpssVersion) 
+    {
+    	// Fetch SchoolInfo by ID
+        SchoolInfo schoolInfo = schoolDao.findById(schoolInfoId);
+        if (schoolInfo == null) {
+            throw new IllegalArgumentException("Invalid SchoolInfo ID. No such school exists.");
         }
 
-        // Set School Officer
-        //schoolInfo.setSchoolOfficer(schoolInfo.getUser().getName());
-
-        // Commented out logic for TVPSS Logo
-        // tvpssVersion.setIsTvpssLogo(tvpssVersion.getTvpssLogo() != null ? RecordStatus.ADA : RecordStatus.TIADA);
-
-        // Determine the TVPSS version
         int version = checkTVPSSVersion(schoolInfo, tvpssVersion);
         tvpssVersion.setVersion(version);
-
-        tvpssVersion.setStatus(ApprovalStatus.PENDING);
-        tvpssVersion.setPpdApproval(tvpssVersion.getPpdApproval() != null ? tvpssVersion.getPpdApproval() : false);
-        tvpssVersion.setStateApproval(tvpssVersion.getStateApproval() != null ? tvpssVersion.getStateApproval() : false);
-
         tvpssVersion.setSchoolInfo(schoolInfo);
+        tvpssVersion.setStatus(ApprovalStatus.PENDING);
+        tvpssVersion.setPpdApproval(false);
+        tvpssVersion.setStateApproval(false);
 
-        save(tvpssVersion);
+        tvpssVersionDao.save(tvpssVersion);
     }
+
+
+    private void mergeVersions(TVPSSVersion existingVersion, TVPSSVersion newVersion) {
+        existingVersion.setAgency1Name(newVersion.getAgency1Name());
+        existingVersion.setAgency2Name(newVersion.getAgency2Name());
+        existingVersion.setAgencyManager1Name(newVersion.getAgencyManager1Name());
+        existingVersion.setAgencyManager2Name(newVersion.getAgencyManager2Name());
+        existingVersion.setRecordEquipment(newVersion.getRecordEquipment());
+        existingVersion.setTvpssStudio(newVersion.getTvpssStudio());
+        existingVersion.setRecInSchool(newVersion.getRecInSchool());
+        existingVersion.setRecInOutSchool(newVersion.getRecInOutSchool());
+        existingVersion.setGreenScreen(newVersion.getGreenScreen());
+
+        // Set RecordStatus values
+        existingVersion.setIsFillSchoolName(
+            newVersion.getSchoolInfo().getSchoolName() != null ? RecordStatus.ADA : RecordStatus.TIADA
+        );
+        existingVersion.setIsNoPhone(
+            newVersion.getSchoolInfo().getNoPhone() != null ? RecordStatus.ADA : RecordStatus.TIADA
+        );
+        existingVersion.setIsUploadYoutube(
+            newVersion.getSchoolInfo().getLinkYoutube() != null ? RecordStatus.ADA : RecordStatus.TIADA
+        );
+        existingVersion.setIsCollabAgency(
+            (newVersion.getAgency1Name() != null || newVersion.getAgency2Name() != null)
+                ? RecordStatus.ADA
+                : RecordStatus.TIADA
+        );
+    }
+
 
     public int checkTVPSSVersion(SchoolInfo schoolInfo, TVPSSVersion tvpssVersion) {
         String isFillSchoolName = schoolInfo.getSchoolName() != null ? RecordStatus.ADA.getDisplayName() : RecordStatus.TIADA.getDisplayName();
-        // Commented out TVPSS Logo validation
-        // String isTvpssLogo = tvpssVersion.getTvpssLogo() != null ? RecordStatus.ADA.getDisplayName() : RecordStatus.TIADA.getDisplayName();
         String tvpssStudio = tvpssVersion.getTvpssStudio() != null ? tvpssVersion.getTvpssStudio().getDisplayName() : RecordStatus.TIADA.getDisplayName();
         String recInSchool = tvpssVersion.getRecInSchool() != null ? tvpssVersion.getRecInSchool().getDisplayName() : RecordStatus.TIADA.getDisplayName();
         String isUploadYoutube = schoolInfo.getLinkYoutube() != null ? RecordStatus.ADA.getDisplayName() : RecordStatus.TIADA.getDisplayName();
@@ -109,14 +167,13 @@ public class TVPSSVersionService {
         String greenScreen = tvpssVersion.getGreenScreen() != null ? tvpssVersion.getGreenScreen().getDisplayName() : RecordStatus.TIADA.getDisplayName();
 
         if (isFillSchoolName.equals(RecordStatus.ADA.getDisplayName()) &&
-            // isTvpssLogo.equals(RecordStatus.ADA.getDisplayName()) && // Commented out
             tvpssStudio.equals(RecordStatus.ADA.getDisplayName()) &&
             recInSchool.equals(RecordStatus.ADA.getDisplayName()) &&
             isUploadYoutube.equals(RecordStatus.ADA.getDisplayName()) &&
             recInOutSchool.equals(RecordStatus.ADA.getDisplayName()) &&
             isCollabAgency.equals(RecordStatus.ADA.getDisplayName()) &&
             greenScreen.equals(RecordStatus.ADA.getDisplayName())) {
-            return 4; 
+            return 4;
         }
 
         if (isFillSchoolName.equals(RecordStatus.ADA.getDisplayName()) &&
@@ -133,13 +190,6 @@ public class TVPSSVersionService {
 
         return 0; // Not satisfied
     }
-
-    // Commented out saveTVPSSLogo method
-    // public void saveTVPSSLogo(TVPSSVersion tvpssVersion, MultipartFile logoFile) throws IOException {
-    //     String savedPath = fileService.saveFile(logoFile, "storage/tvpssLogos");
-    //     tvpssVersion.setTvpssLogo(savedPath);
-    //     save(tvpssVersion);
-    // }
 
     public TVPSSVersion findOrCreateBySchoolInfo(SchoolInfo schoolInfo) {
         TVPSSVersion tvpssVersion = tvpssVersionDao.findBySchoolInfoId(schoolInfo.getId());

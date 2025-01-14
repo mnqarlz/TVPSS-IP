@@ -111,149 +111,131 @@
                 <h3 class="text-2xl font-bold text-gray-800">Maklumat Versi TVPSS</h3>
             </div>
 
-            <form th:action="@{/4-SchoolAdmin/SchoolTVPSSVersion/saveTVPSSVersion}" enctype="multipart/form-data" class="space-y-6" method="post">
-
-    			<!-- Hidden Field for TVPSSVersion ID -->
-			    <input type="hidden" name="id" th:value="${tvpssVersion.id}" />
-			    <!-- Hidden Field for SchoolInfo ID -->
-			    <input type="hidden" name="schoolInfo.id" th:value="${tvpssVersion.schoolInfo.id}" />
+            <form th:action="@{/4-SchoolAdmin/SchoolTVPSSVersion/saveTVPSSVersion}" 
+			      th:object="${tvpssVersion}"
+			      method="post"
+			      class="space-y-6">
 			    
-                <!-- Agency Information Section -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <!-- Agency 1 -->
-                    <div class="space-y-4">
-                        <div class="relative">
-                            <label for="agency1Name" class="block text-sm font-medium text-gray-700 mb-1">
-                                Agensi 1
-                            </label>
-                            <input type="text" 
-                                   id="agency1Name" 
-                                   name="agency1Name" 
-                                   th:value="${tvpssVersion.agency1Name}"
-                                   class="block w-full px-4 py-3 rounded-lg border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 text-gray-900">
-                        </div>
-                        <div class="relative">
-                            <label for="agency1ManagerName" class="block text-sm font-medium text-gray-700 mb-1">
-                                Pengurus Agensi 1
-                            </label>
-                            <input type="text" 
-                                   id="agency1ManagerName" 
-                                   name="agency1ManagerName" 
-                                   th:value="${tvpssVersion.agencyManager1Name}"
-                                   class="block w-full px-4 py-3 rounded-lg border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 text-gray-900">
-                        </div>
-                    </div>
-
-                    <!-- Agency 2 -->
-                    <div class="space-y-4">
-                        <div class="relative">
-                            <label for="agency2Name" class="block text-sm font-medium text-gray-700 mb-1">
-                                Agensi 2
-                            </label>
-                            <input type="text" 
-                                   id="agency2Name" 
-                                   name="agency2Name" 
-                                   th:value="${tvpssVersion.agency2Name}"
-                                   class="block w-full px-4 py-3 rounded-lg border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 text-gray-900">
-                        </div>
-                        <div class="relative">
-                            <label for="agency2ManagerName" class="block text-sm font-medium text-gray-700 mb-1">
-                                Pengurus Agensi 2
-                            </label>
-                            <input type="text" 
-                                   id="agency2ManagerName" 
-                                   name="agency2ManagerName" 
-                                   th:value="${tvpssVersion.agencyManager2Name}"
-                                   class="block w-full px-4 py-3 rounded-lg border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 text-gray-900">
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Equipment Section -->
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
-                    <!-- Recording Equipment -->
-                    <div class="relative">
-                        <label for="recordEquipment" class="block text-sm font-medium text-gray-700 mb-1">
-                            Peralatan Rakaman
-                        </label>
-                        <select id="recordEquipment" 
-                                name="recordEquipment" 
-                                th:value="${tvpssVersion.recordEquipment}"
-                                class="block w-full px-4 py-3 rounded-lg border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 bg-white">
-                            <option value="Ada">Ada</option>
-                            <option value="Tiada">Tiada</option>
-                        </select>
-                    </div>
-
-                    <!-- TVPSS Studio -->
-                    <div class="relative">
-                        <label for="tvpssStudio" class="block text-sm font-medium text-gray-700 mb-1">
-                            Studio TVPSS
-                        </label>
-                        <select id="tvpssStudio" 
-                                name="tvpssStudio" 
-                                th:value="${tvpssVersion.tvpssStudio}"
-                                class="block w-full px-4 py-3 rounded-lg border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 bg-white">
-                            <option value="Ada">Ada</option>
-                            <option value="Tiada">Tiada</option>
-                        </select>
-                    </div>
-
-                    <!-- In-School Recording -->
-                    <div class="relative">
-                        <label for="recInSchool" class="block text-sm font-medium text-gray-700 mb-1">
-                            Rakaman Dalam Sekolah
-                        </label>
-                        <select id="recInSchool" 
-                                name="recInSchool" 
-                                th:value="${tvpssVersion.recInSchool}"
-                                class="block w-full px-4 py-3 rounded-lg border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 bg-white">
-                            <option value="Ada">Ada</option>
-                            <option value="Tiada">Tiada</option>
-                        </select>
-                    </div>
-
-                    <!-- Out-School Recording -->
-                    <div class="relative">
-                        <label for="recInOutSchool" class="block text-sm font-medium text-gray-700 mb-1">
-                            Rakaman Luar Sekolah
-                        </label>
-                        <select id="recInOutSchool" 
-                                name="recInOutSchool" 
-                                th:value="${tvpssVersion.recInOutSchool}"
-                                class="block w-full px-4 py-3 rounded-lg border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 bg-white">
-                            <option value="Ada">Ada</option>
-                            <option value="Tiada">Tiada</option>
-                        </select>
-                    </div>
-
-                    <!-- Green Screen -->
-                    <div class="relative">
-                        <label for="greenScreen" class="block text-sm font-medium text-gray-700 mb-1">
-                            'Green Screen' Technology
-                        </label>
-                        <select id="greenScreen" 
-                                name="greenScreen" 
-                                th:value="${tvpssVersion.greenScreen}"
-                                class="block w-full px-4 py-3 rounded-lg border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 bg-white">
-                            <option value="Ada">Ada</option>
-                            <option value="Tiada">Tiada</option>
-                        </select>
-                    </div>
-                </div>
-
-                <!-- Form Actions -->
-                <div class="flex justify-end space-x-4 mt-8">
-                    <a th:href="@{/4-SchoolAdmin/SchoolTVPSSVersion/updateSchoolInfo}" 
-					   class="px-6 py-3 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2 transition-colors duration-200">
-					    Kembali
-					</a>
-                    <button type="submit" 
-                            class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-200">
-                        Hantar Informasi TVPSS
-                    </button>
-                </div>
-            </form>
+			    <!-- Hidden fields -->
+			    <input type="hidden" th:field="*{id}" />
+			    <input type="hidden" name="schoolInfoId" th:value="${schoolInfoId}" />
+			    
+			    <!-- Agency Information Section -->
+			    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+			        <!-- Agency 1 -->
+			        <div class="space-y-4">
+			            <div class="relative">
+			                <label for="agency1Name" class="block text-sm font-medium text-gray-700 mb-1">
+			                    Agensi 1
+			                </label>
+			                <input type="text" 
+			                       th:field="*{agency1Name}"
+			                       class="block w-full px-4 py-3 rounded-lg border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 text-gray-900">
+			            </div>
+			            <div class="relative">
+			                <label for="agencyManager1Name" class="block text-sm font-medium text-gray-700 mb-1">
+			                    Pengurus Agensi 1
+			                </label>
+			                <input type="text" 
+			                       th:field="*{agencyManager1Name}"
+			                       class="block w-full px-4 py-3 rounded-lg border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 text-gray-900">
+			            </div>
+			        </div>
+			
+			        <!-- Agency 2 -->
+			        <div class="space-y-4">
+			            <div class="relative">
+			                <label for="agency2Name" class="block text-sm font-medium text-gray-700 mb-1">
+			                    Agensi 2
+			                </label>
+			                <input type="text" 
+			                       th:field="*{agency2Name}"
+			                       class="block w-full px-4 py-3 rounded-lg border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 text-gray-900">
+			            </div>
+			            <div class="relative">
+			                <label for="agencyManager2Name" class="block text-sm font-medium text-gray-700 mb-1">
+			                    Pengurus Agensi 2
+			                </label>
+			                <input type="text" 
+			                       th:field="*{agencyManager2Name}"
+			                       class="block w-full px-4 py-3 rounded-lg border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 text-gray-900">
+			            </div>
+			        </div>
+			    </div>
+			
+			    <!-- Equipment Section -->
+			    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
+			        <!-- Recording Equipment -->
+			        <div class="relative">
+			            <label for="recordEquipment" class="block text-sm font-medium text-gray-700 mb-1">
+			                Peralatan Rakaman
+			            </label>
+			            <select th:field="*{recordEquipment}"
+			                    class="block w-full px-4 py-3 rounded-lg border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 bg-white">
+			                <option value="ADA">Ada</option>
+			                <option value="TIADA">Tiada</option>
+			            </select>
+			        </div>
+			
+			        <!-- TVPSS Studio -->
+			        <div class="relative">
+			            <label for="tvpssStudio" class="block text-sm font-medium text-gray-700 mb-1">
+			                Studio TVPSS
+			            </label>
+			            <select th:field="*{tvpssStudio}"
+			                    class="block w-full px-4 py-3 rounded-lg border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 bg-white">
+			                <option value="ADA">Ada</option>
+			                <option value="TIADA">Tiada</option>
+			            </select>
+			        </div>
+			
+			        <!-- Other select fields follow the same pattern... -->
+			        <div class="relative">
+			            <label for="recInSchool" class="block text-sm font-medium text-gray-700 mb-1">
+			                Rakaman Dalam Sekolah
+			            </label>
+			            <select th:field="*{recInSchool}"
+			                    class="block w-full px-4 py-3 rounded-lg border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 bg-white">
+			                <option value="ADA">Ada</option>
+			                <option value="TIADA">Tiada</option>
+			            </select>
+			        </div>
+			
+			        <div class="relative">
+			            <label for="recInOutSchool" class="block text-sm font-medium text-gray-700 mb-1">
+			                Rakaman Luar Sekolah
+			            </label>
+			            <select th:field="*{recInOutSchool}"
+			                    class="block w-full px-4 py-3 rounded-lg border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 bg-white">
+			                <option value="ADA">Ada</option>
+			                <option value="TIADA">Tiada</option>
+			            </select>
+			        </div>
+			
+			        <div class="relative">
+			            <label for="greenScreen" class="block text-sm font-medium text-gray-700 mb-1">
+			                'Green Screen' Technology
+			            </label>
+			            <select th:field="*{greenScreen}"
+			                    class="block w-full px-4 py-3 rounded-lg border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 bg-white">
+			                <option value="ADA">Ada</option>
+			                <option value="TIADA">Tiada</option>
+			            </select>
+			        </div>
+			    </div>
+			
+			    <!-- Form Actions -->
+			    <div class="flex justify-end space-x-4 mt-8">
+			        <a th:href="@{/4-SchoolAdmin/SchoolTVPSSVersion/updateSchoolInfo}" 
+			           class="px-6 py-3 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2 transition-colors duration-200">
+			            Kembali
+			        </a>
+			        <button type="submit" 
+			                class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-200">
+			            Hantar Informasi TVPSS
+			        </button>
+			    </div>
+			</form>
         </div>
     </div>
 </body>

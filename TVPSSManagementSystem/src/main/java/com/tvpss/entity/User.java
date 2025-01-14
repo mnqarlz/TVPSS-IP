@@ -29,6 +29,9 @@ public class User {
 
     @Column(nullable = false)
     private String password;
+    
+    @OneToOne(mappedBy = "user") 
+    private SchoolInfo schoolInfo;
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
@@ -122,5 +125,13 @@ public class User {
 
     public void setRoleColor(String roleColor) {
         this.roleColor = roleColor;
+    }
+    
+    public SchoolInfo getSchoolInfo() {
+        return schoolInfo;
+    }
+
+    public void setSchoolInfo(SchoolInfo schoolInfo) {
+        this.schoolInfo = schoolInfo;
     }
 }

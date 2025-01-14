@@ -4,8 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 //import org.springframework.web.bind.annotation.RequestParam;
 // import org.springframework.web.multipart.MultipartFile;
 import com.tvpss.entity.SchoolInfo;
@@ -70,13 +73,13 @@ public class SchoolAdminController {
     public String showTVPSSVersionForm(Model model) {
         try {
             SchoolInfo schoolInfo = schoolService.findSchoolInfo();
-
             if (schoolInfo == null) {
                 return "redirect:/4-SchoolAdmin/SchoolTVPSSVersion/updateSchoolInfo";
             }
 
             TVPSSVersion tvpssVersion = tvpssVersionService.findOrCreateBySchoolInfo(schoolInfo);
             model.addAttribute("tvpssVersion", tvpssVersion);
+            model.addAttribute("schoolInfoId", schoolInfo.getId()); // Add schoolInfoId to model
             return "4-SchoolAdmin/SchoolTVPSSVersion/UpdateSchoolTVPSSVersion2";
         } catch (Exception e) {
             e.printStackTrace();
@@ -86,30 +89,27 @@ public class SchoolAdminController {
     }
 
     @PostMapping("/SchoolTVPSSVersion/saveTVPSSVersion")
-    public String saveTVPSSVersion(TVPSSVersion tvpssVersion, Model model) {
+    public String saveTVPSSVersion(
+            @ModelAttribute TVPSSVersion tvpssVersion,
+            @RequestParam Long schoolInfoId,  // Add this parameter
+            Model model) {
         try {
-            // Debugging: Log the TVPSSVersion object
-            System.out.println("DEBUG: Received TVPSSVersion ID: " + tvpssVersion.getId());
-            System.out.println("DEBUG: Associated SchoolInfo ID: " + tvpssVersion.getSchoolInfo().getId());
-
-            // Ensure SchoolInfo is valid
-            SchoolInfo schoolInfo = tvpssVersion.getSchoolInfo();
-            if (schoolInfo == null || schoolInfo.getId() == null) {
-                throw new IllegalArgumentException("Invalid SchoolInfo. Please ensure it is provided and valid.");
+            SchoolInfo schoolInfo = schoolService.findById(schoolInfoId);
+            if (schoolInfo == null) {
+                throw new IllegalArgumentException("No active school information found.");
             }
 
-            // Save or update the TVPSSVersion
-            tvpssVersionService.updateSchoolAndVersion(schoolInfo, tvpssVersion);
+            tvpssVersion.setSchoolInfo(schoolInfo);
+            tvpssVersionService.saveOrUpdateTVPSSVersion(tvpssVersion);
 
-            System.out.println("DEBUG: Successfully saved or updated TVPSSVersion.");
             return "redirect:/4-SchoolAdmin/dashboardScA";
-        } catch (IllegalArgumentException e) {
-            model.addAttribute("error", e.getMessage());
-            return "redirect:/4-SchoolAdmin/SchoolTVPSSVersion/updateTVPSSVersion";
         } catch (Exception e) {
+            System.out.println("ERROR: Exception while saving TVPSSVersion: " + e.getMessage());
             e.printStackTrace();
-            model.addAttribute("error", "An unexpected error occurred while saving the TVPSS version.");
+            model.addAttribute("error", "An error occurred while saving the TVPSS version.");
             return "redirect:/4-SchoolAdmin/SchoolTVPSSVersion/updateTVPSSVersion";
         }
     }
+
+
 }

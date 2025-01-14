@@ -14,7 +14,7 @@ public class TVPSSVersion {
     private Long id;
 
     @OneToOne
-    @JoinColumn(name = "school_info_id", nullable = false)
+    @JoinColumn(name = "school_info_id", unique = true, nullable = false)
     private SchoolInfo schoolInfo;
 
     private Integer version;
@@ -28,8 +28,9 @@ public class TVPSSVersion {
     private String agency2Name;
     private String agencyManager1Name;
     private String agencyManager2Name;
-
-    private Boolean isNoPhone;
+    
+    @Enumerated(EnumType.STRING)
+    private RecordStatus isNoPhone;
 
     @Enumerated(EnumType.STRING)
     private RecordStatus recordEquipment;
@@ -165,11 +166,11 @@ public class TVPSSVersion {
         this.agencyManager2Name = agencyManager2Name;
     }
 
-    public Boolean getIsNoPhone() {
+    public RecordStatus getIsNoPhone() {
         return isNoPhone;
     }
 
-    public void setIsNoPhone(Boolean isNoPhone) {
+    public void setIsNoPhone(RecordStatus isNoPhone) {
         this.isNoPhone = isNoPhone;
     }
 

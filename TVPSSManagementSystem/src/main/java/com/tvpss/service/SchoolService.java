@@ -25,6 +25,13 @@ public class SchoolService {
     public SchoolInfo findSchoolInfo() {
         return schoolDao.findFirst();
     }
+    
+    public SchoolInfo findById(Long id) {
+        SchoolInfo schoolInfo = schoolDao.findById(id);
+        System.out.println("DEBUG: Retrieved SchoolInfo: " + schoolInfo);
+        return schoolInfo;
+    }
+
 
     public void saveOrUpdateSchoolInfo(SchoolInfo schoolInfo /*, MultipartFile schoolLogoFile*/) throws IOException {
         // if (schoolLogoFile != null && !schoolLogoFile.isEmpty()) {
