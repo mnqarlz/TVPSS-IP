@@ -4,16 +4,16 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
+@Table(name = "schoolinfo")
 public class SchoolInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @OneToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
-    
-    private String schoolOfficer;
+    //private String schoolOfficer;
     private String schoolCode;
     private String schoolName;
     private String schoolEmail;
@@ -24,14 +24,11 @@ public class SchoolInfo {
     private String state;
     private String noPhone;
     private String noFax;
-    private String schoolLogo;
+    //private String schoolLogo;
     private String linkYoutube;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date createdAt;
-
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date updatedAt;
+    /*@Temporal(TemporalType.TIMESTAMP)
+    private Date createdAt;*/
 
     @OneToOne(mappedBy = "schoolInfo", cascade = CascadeType.ALL)
     private TVPSSVersion tvpssVersion;
@@ -52,13 +49,13 @@ public class SchoolInfo {
         this.user = user;
     }
 
-    public String getSchoolOfficer() {
+    /*public String getSchoolOfficer() {
         return schoolOfficer;
     }
 
     public void setSchoolOfficer(String schoolOfficer) {
         this.schoolOfficer = schoolOfficer;
-    }
+    }*/
 
     public String getSchoolCode() {
         return schoolCode;
@@ -140,13 +137,13 @@ public class SchoolInfo {
         this.noFax = noFax;
     }
 
-    public String getSchoolLogo() {
+    /*public String getSchoolLogo() {
         return schoolLogo;
     }
 
     public void setSchoolLogo(String schoolLogo) {
         this.schoolLogo = schoolLogo;
-    }
+    }*/
 
     public String getLinkYoutube() {
         return linkYoutube;
@@ -156,21 +153,13 @@ public class SchoolInfo {
         this.linkYoutube = linkYoutube;
     }
 
-    public Date getCreatedAt() {
+    /*public Date getCreatedAt() {
         return createdAt;
     }
 
     public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
-    }
-
-    public Date getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(Date updatedAt) {
-        this.updatedAt = updatedAt;
-    }
+    }*/
 
     public TVPSSVersion getTvpssVersion() {
         return tvpssVersion;
@@ -178,5 +167,14 @@ public class SchoolInfo {
 
     public void setTvpssVersion(TVPSSVersion tvpssVersion) {
         this.tvpssVersion = tvpssVersion;
+    }
+    
+    @Override
+    public String toString() {
+        return "SchoolInfo{" +
+                "id=" + id +
+                ", schoolCode='" + schoolCode + '\'' +
+                ", schoolName='" + schoolName + '\'' +
+                '}';
     }
 }

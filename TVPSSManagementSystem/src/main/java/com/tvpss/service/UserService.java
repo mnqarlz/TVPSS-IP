@@ -66,11 +66,9 @@ public class UserService implements UserDetailsService {
 
     public void updateUser(User user) {
         if (user.getId() != null) {
-            // Check if the password is provided; only encode if it's not blank
             if (user.getPassword() != null && !user.getPassword().isEmpty()) {
                 user.setPassword(encodePassword(user.getPassword()));
             } else {
-                // Preserve the existing password if not updated
                 User existingUser = findUserById(user.getId());
                 user.setPassword(existingUser.getPassword());
             }
@@ -105,4 +103,11 @@ public class UserService implements UserDetailsService {
                 throw new IllegalArgumentException("Unknown role: " + role);
         }
     }
+    
+    public User findDefaultUserByRole(Role role) {
+        return userDao.findByRole(role).stream()
+            .findFirst()
+            .orElseThrow(() -> new IllegalArgumentException("No default user found for role: " + role));
+    }
+
 }

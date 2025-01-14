@@ -1,5 +1,7 @@
 package com.tvpss.enums;
 
-public class ApprovalStatus {
-
+public enum ApprovalStatus {
+    PENDING,
+    APPROVED,
+    REJECTED
 }

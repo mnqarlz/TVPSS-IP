@@ -202,23 +202,23 @@
 	                <span>Dashboard</span>
 	            </a>
 	
-	            <!-- Senarai Pelajar -->
+	            <!-- Student Management -->
 	            <a th:href="@{/4-SchoolAdmin/StudentManagement}" 
 	               th:classappend="${#httpServletRequest != null and #httpServletRequest.requestURI == '/4-SchoolAdmin/StudentManagement' ? 'bg-gray-700 text-white' : ''}"
 	               class="flex items-center px-4 py-3 rounded-lg hover:bg-gray-700 hover:text-white transition-colors duration-200">
 	                <i class="fas fa-user-graduate w-6 h-6 mr-3 text-gray-400"></i>
-	                <span>Senarai Pelajar</span>
+	                <span>Pengurusan Pelajar</span>
 	            </a>
 	
-	            <!-- Permohonan Krew -->
+	            <!-- Crew Application -->
 	            <a th:href="@{/4-SchoolAdmin/CrewApplication}" 
 	               th:classappend="${#httpServletRequest != null and #httpServletRequest.requestURI == '/4-SchoolAdmin/CrewApplication' ? 'bg-gray-700 text-white' : ''}"
 	               class="flex items-center px-4 py-3 rounded-lg hover:bg-gray-700 hover:text-white transition-colors duration-200">
 	                <i class="fas fa-pencil-alt w-6 h-6 mr-3 text-gray-400"></i>
-	                <span>Permohonan Krew</span>
+	                <span>Aplikasi Krew</span>
 	            </a>
 	
-	            <!-- Pencapaian Pelajar -->
+	            <!-- Student Achievement -->
 	            <a th:href="@{/4-SchoolAdmin/StudentAchievement}" 
 	               th:classappend="${#httpServletRequest != null and #httpServletRequest.requestURI == '/4-SchoolAdmin/StudentAchievement' ? 'bg-gray-700 text-white' : ''}"
 	               class="flex items-center px-4 py-3 rounded-lg hover:bg-gray-700 hover:text-white transition-colors duration-200">
@@ -226,7 +226,7 @@
 	                <span>Pencapaian Pelajar</span>
 	            </a>
 	
-	            <!-- Pengurusan Peralatan -->
+	            <!-- Equipment Management -->
 	            <a th:href="@{/4-SchoolAdmin/ManageEquipment}" 
 	               th:classappend="${#httpServletRequest != null and #httpServletRequest.requestURI == '/4-SchoolAdmin/ManageEquipment' ? 'bg-gray-700 text-white' : ''}"
 	               class="flex items-center px-4 py-3 rounded-lg hover:bg-gray-700 hover:text-white transition-colors duration-200">
@@ -234,12 +234,12 @@
 	                <span>Pengurusan Peralatan</span>
 	            </a>
 	
-	            <!-- Submit Versi TVPSS -->
-	            <a th:href="@{/4-SchoolAdmin/SchoolTVPSSVersion}" 
-	               th:classappend="${#httpServletRequest != null and #httpServletRequest.requestURI == '/4-SchoolAdmin/SchoolTVPSSVersion' ? 'bg-gray-700 text-white' : ''}"
+	            <!-- Update TVPSS Version -->
+	            <a th:href="@{/4-SchoolAdmin/SchoolTVPSSVersion/updateSchoolInfo}" 
+	               th:classappend="${#httpServletRequest != null and #httpServletRequest.requestURI == '/4-SchoolAdmin/updateSchoolTVPSSVersion' ? 'bg-gray-700 text-white' : ''}"
 	               class="flex items-center px-4 py-3 rounded-lg hover:bg-gray-700 hover:text-white transition-colors duration-200">
 	                <i class="fas fa-paper-plane w-6 h-6 mr-3 text-gray-400"></i>
-	                <span>Submit Versi TVPSS</span>
+	                <span>Hantar TVPSS Sekolah</span>
 	            </a>
 	        </nav>
 	    </div>
@@ -249,7 +249,7 @@
 	        <a th:href="@{/logout}" 
 	           class="flex items-center px-4 py-3 rounded-lg text-red-500 hover:bg-gray-700 hover:text-red-300 transition-colors duration-200">
 	            <i class="fas fa-sign-out-alt w-6 h-6 mr-3 text-red-500"></i>
-	            <span>Log Keluar</span>
+	            <span>Log Out</span>
 	        </a>
 	    </div>
 	</aside>
